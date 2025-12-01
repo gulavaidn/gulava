@@ -1,142 +1,579 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Burger & Kebab - Lezat dan Fresh</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Burger &amp; Kebab Landing Page</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {margin:0; font-family:'Poppins', sans-serif; background:#fdfdfd; color:#333;}
-    header {background:url('https://images.unsplash.com/photo-1607012330379-ca5c8b4c646c') center/cover no-repeat; height:85vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; color:white;}
-    header h1 {font-size:3.5rem; font-weight:700; text-shadow:2px 2px 10px rgba(0,0,0,0.7);}
-    header p {font-size:1.2rem; max-width:600px; text-shadow:2px 2px 6px rgba(0,0,0,0.6);}
-    .cta-btn {background:#ffae00; padding:14px 28px; border-radius:30px; font-weight:600; text-decoration:none; color:black;}
-    .cta-btn:hover {background:#ffc93c;}
-
-    .menu-section {padding:60px 20px; text-align:center;}
-    .menu-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:25px; max-width:1200px; margin:auto;}
-    .menu-card {background:white; border-radius:16px; box-shadow:0 4px 15px rgba(0,0,0,0.1); overflow:hidden; transition:0.3s;}
-    .menu-card:hover {transform:translateY(-8px);}
-    .menu-card img {width:100%; height:180px; object-fit:cover;}
-    footer {background:#222; color:white; padding:35px 20px; text-align:center;}
-
-    @keyframes fadeIn {from {opacity:0;} to {opacity:1;}}
-    @keyframes slideUp {from {transform:translateY(40px); opacity:0;} to {transform:translateY(0); opacity:1;}}
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+    
+    .hero-pattern {
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 193, 7, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 193, 7, 0.1) 0%, transparent 50%);
+    }
+    
+    .menu-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .menu-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(255, 193, 7, 0.3);
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.7;
+      }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .smooth-scroll {
+      scroll-behavior: smooth;
+    }
   </style>
-</head>
-<body>
-
-<header>
-  <h1>Burger & Kebab Premium</h1>
-  <p>Rasakan sensasi kelezatan burger juicy dan kebab gurih yang dibuat dari bahan berkualitas.</p>
-  <a href="#menu" class="cta-btn">Lihat Menu</a>
-</header>
-
-<section id="menu" class="menu-section">
-  <h2>Menu Favorit Kami</h2>
-  <p>Pilihan terbaik untuk menemani hari Anda!</p>
-
-  <div class="menu-grid">
-    <div class="menu-card">
-      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" />
-      <h3>Burger Beef Premium</h3>
-      <p>Burger daging sapi premium juicy dan lezat.</p>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="smooth-scroll">
+  <div id="app" class="w-full" style="background-color: #FFFFFF;"><!-- Navigation -->
+   <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300" style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+     <div class="flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+       <svg width="40" height="40" viewbox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#FFC107" /> <path d="M20 10 L25 18 L20 15 L15 18 Z" fill="#FFFFFF" /> <rect x="12" y="18" width="16" height="3" rx="1.5" fill="#FFFFFF" /> <rect x="10" y="21" width="20" height="8" rx="2" fill="#FFFFFF" /> <circle cx="15" cy="25" r="1.5" fill="#FFC107" /> <circle cx="20" cy="25" r="1.5" fill="#FFC107" /> <circle cx="25" cy="25" r="1.5" fill="#FFC107" />
+       </svg>
+       <h1 id="nav-business-name" class="text-2xl font-bold" style="color: #333333;">GULAVA</h1>
+      </div>
+      <div class="hidden md:flex space-x-8"><a href="#home" class="text-base font-medium hover:opacity-70 transition-opacity" style="color: #333333;">Beranda</a> <a href="#menu" class="text-base font-medium hover:opacity-70 transition-opacity" style="color: #333333;">Menu</a> <a href="#pesan" class="text-base font-medium hover:opacity-70 transition-opacity" style="color: #333333;">Pesan</a> <a href="#kontak" class="text-base font-medium hover:opacity-70 transition-opacity" style="color: #333333;">Kontak</a>
+      </div>
+     </div>
     </div>
-
-    <div class="menu-card">
-      <img src="https://images.unsplash.com/photo-1606756790138" />
-      <h3>Burger Crispy Chicken Cheese</h3>
-      <p>Chicken crispy dengan keju leleh.</p>
+   </nav><!-- Hero Section -->
+   <section id="home" class="w-full pt-24 hero-pattern fade-in" style="background: linear-gradient(135deg, #FFFFFF 0%, #FFF9E6 100%); min-height: 90%;">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+     <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="space-y-6">
+       <div class="inline-block px-4 py-2 rounded-full" style="background-color: #FFC107;">
+        <p id="tagline" class="text-sm font-semibold" style="color: #333333;">🔥 Kelezatan Otentik</p>
+       </div>
+       <h2 id="hero-title" class="text-5xl md:text-6xl font-bold leading-tight" style="color: #333333;">GULAVA - Burger &amp; Kebab Terbaik di Kota</h2>
+       <p id="hero-subtitle" class="text-xl" style="color: #666666;">Nikmati cita rasa istimewa dengan bahan berkualitas tinggi dan resep rahasia kami</p>
+       <div class="flex space-x-4"><button id="cta-button" class="px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:shadow-lg" style="background-color: #FFC107; color: #333333;" onclick="document.getElementById('menu').scrollIntoView({ behavior: 'smooth' })"> Lihat Menu </button> <button class="px-8 py-4 rounded-full text-lg font-semibold border-2 transition-all duration-300 hover:opacity-70" style="border-color: #FFC107; color: #333333;" onclick="document.getElementById('kontak').scrollIntoView({ behavior: 'smooth' })"> Hubungi Kami </button>
+       </div>
+      </div>
+      <div class="relative">
+       <div class="pulse-animation">
+        <svg width="100%" height="400" viewbox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"><!-- Burger Illustration --> <g transform="translate(50, 80)"><!-- Top Bun -->
+          <ellipse cx="150" cy="50" rx="140" ry="45" fill="#F4C430" />
+          <ellipse cx="150" cy="50" rx="120" ry="35" fill="#FFC107" />
+          <circle cx="100" cy="45" r="8" fill="#E0A800" />
+          <circle cx="150" cy="40" r="8" fill="#E0A800" />
+          <circle cx="200" cy="48" r="8" fill="#E0A800" /> <!-- Lettuce -->
+          <path d="M 30 95 Q 40 85 60 90 T 100 88 T 150 92 T 200 87 T 240 90 T 270 95 L 260 110 Q 240 105 200 108 T 150 110 T 100 107 T 40 110 Z" fill="#7CB342" /> <!-- Tomato -->
+          <ellipse cx="150" cy="120" rx="130" ry="15" fill="#E53935" /> <!-- Cheese -->
+          <path d="M 25 135 L 275 135 L 270 150 L 30 150 Z" fill="#FFD54F" /> <!-- Patty -->
+          <ellipse cx="150" cy="170" rx="135" ry="25" fill="#6D4C41" />
+          <ellipse cx="150" cy="165" rx="135" ry="20" fill="#8D6E63" /> <!-- Bottom Bun -->
+          <ellipse cx="150" cy="210" rx="145" ry="30" fill="#F4C430" />
+          <ellipse cx="150" cy="205" rx="145" ry="25" fill="#FFC107" />
+         </g> <!-- Kebab Illustration --> <g transform="translate(50, 80)">
+          <rect x="320" y="60" width="15" height="180" rx="7" fill="#8D6E63" /> <!-- Meat pieces -->
+          <ellipse cx="327" cy="80" rx="35" ry="20" fill="#8D6E63" />
+          <ellipse cx="327" cy="110" rx="38" ry="22" fill="#A1887F" />
+          <ellipse cx="327" cy="140" rx="36" ry="21" fill="#8D6E63" />
+          <ellipse cx="327" cy="170" rx="37" ry="20" fill="#A1887F" />
+          <ellipse cx="327" cy="200" rx="35" ry="19" fill="#8D6E63" /> <!-- Vegetables between meat -->
+          <ellipse cx="327" cy="95" rx="30" ry="8" fill="#E53935" />
+          <ellipse cx="327" cy="125" rx="32" ry="8" fill="#FDD835" />
+          <ellipse cx="327" cy="155" rx="31" ry="8" fill="#7CB342" />
+          <ellipse cx="327" cy="185" rx="30" ry="8" fill="#E53935" /> <!-- Top decoration -->
+          <circle cx="327" cy="60" r="12" fill="#FFD54F" />
+         </g> <!-- Decorative elements --> <circle cx="50" cy="50" r="20" fill="#FFC107" opacity="0.3" /> <circle cx="350" cy="300" r="30" fill="#FFC107" opacity="0.2" /> <circle cx="80" cy="320" r="15" fill="#FFC107" opacity="0.25" />
+        </svg>
+       </div>
+      </div>
+     </div>
     </div>
-
-    <div class="menu-card">
-      <img src="https://images.unsplash.com/photo-1608755728617" />
-      <h3>Kebab Beef Premium</h3>
-      <p>Kebab daging sapi premium berbumbu khas.</p>
+   </section><!-- Menu Section -->
+   <section id="menu" class="w-full py-20" style="background-color: #FFF9E6;">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="text-center mb-16">
+      <h3 id="menu-title" class="text-4xl font-bold mb-4" style="color: #333333;">Menu Spesial Kami</h3>
+      <p class="text-lg" style="color: #666666;">Pilihan terbaik untuk Anda</p>
+     </div><!-- Menu Categories -->
+     <div class="mb-12">
+      <h4 class="text-3xl font-bold mb-8 text-center" style="color: #333333;">🍔 Menu Burger</h4>
+      <div class="grid md:grid-cols-4 gap-6"><!-- Burger Crispy Chicken Classic -->
+       <div class="menu-card rounded-2xl overflow-hidden" style="background-color: #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="p-4" style="background: linear-gradient(135deg, #FFC107 0%, #FFD54F 100%); height: 140px; display: flex; align-items: center; justify-content: center;">
+         <svg width="80" height="80" viewbox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="40" cy="20" rx="30" ry="10" fill="#F4C430" /> <ellipse cx="40" cy="30" rx="28" ry="5" fill="#7CB342" /> <ellipse cx="40" cy="35" rx="29" ry="3" fill="#E53935" /> <ellipse cx="40" cy="40" rx="29" ry="5" fill="#FFD54F" /> <ellipse cx="40" cy="48" rx="30" ry="7" fill="#F4A460" /> <ellipse cx="40" cy="58" rx="31" ry="8" fill="#F4C430" />
+         </svg>
+        </div>
+        <div class="p-4">
+         <h5 class="text-lg font-bold mb-1" style="color: #333333;">Crispy Chicken Classic</h5>
+         <div class="flex justify-between items-center mt-3"><span class="text-xl font-bold" style="color: #FFC107;">Rp 12.000</span> <button onclick="orderItem('Burger Crispy Chicken Classic', 12000)" class="px-4 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80" style="background-color: #FFC107; color: #333333;">Pesan</button>
+         </div>
+        </div>
+       </div><!-- Burger Crispy Chicken Premium -->
+       <div class="menu-card rounded-2xl overflow-hidden" style="background-color: #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="p-4" style="background: linear-gradient(135deg, #FFD54F 0%, #FFC107 100%); height: 140px; display: flex; align-items: center; justify-content: center;">
+         <svg width="80" height="80" viewbox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="40" cy="18" rx="32" ry="12" fill="#F4C430" /> <ellipse cx="40" cy="30" rx="30" ry="6" fill="#7CB342" /> <ellipse cx="40" cy="36" rx="31" ry="4" fill="#E53935" /> <ellipse cx="40" cy="42" rx="31" ry="6" fill="#FFD54F" /> <ellipse cx="40" cy="51" rx="32" ry="8" fill="#F4A460" /> <ellipse cx="40" cy="62" rx="33" ry="10" fill="#F4C430" /> <circle cx="30" cy="16" r="3" fill="#E0A800" /> <circle cx="50" cy="16" r="3" fill="#E0A800" />
+         </svg>
+        </div>
+        <div class="p-4">
+         <h5 class="text-lg font-bold mb-1" style="color: #333333;">Crispy Chicken Premium</h5>
+         <div class="flex justify-between items-center mt-3"><span class="text-xl font-bold" style="color: #FFC107;">Rp 15.000</span> <button onclick="orderItem('Burger Crispy Chicken Premium', 15000)" class="px-4 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80" style="background-color: #FFC107; color: #333333;">Pesan</button>
+         </div>
+        </div>
+       </div><!-- Burger Beef Classic -->
+       <div class="menu-card rounded-2xl overflow-hidden" style="background-color: #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="p-4" style="background: linear-gradient(135deg, #FFC107 0%, #FFD54F 100%); height: 140px; display: flex; align-items: center; justify-content: center;">
+         <svg width="80" height="80" viewbox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="40" cy="20" rx="30" ry="10" fill="#F4C430" /> <ellipse cx="40" cy="30" rx="28" ry="5" fill="#7CB342" /> <ellipse cx="40" cy="36" rx="29" ry="4" fill="#E53935" /> <ellipse cx="40" cy="42" rx="29" ry="5" fill="#FFD54F" /> <ellipse cx="40" cy="51" rx="30" ry="8" fill="#6D4C41" /> <ellipse cx="40" cy="60" rx="31" ry="8" fill="#F4C430" />
+         </svg>
+        </div>
+        <div class="p-4">
+         <h5 class="text-lg font-bold mb-1" style="color: #333333;">Beef Classic</h5>
+         <div class="flex justify-between items-center mt-3"><span class="text-xl font-bold" style="color: #FFC107;">Rp 17.000</span> <button onclick="orderItem('Burger Beef Classic', 17000)" class="px-4 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80" style="background-color: #FFC107; color: #333333;">Pesan</button>
+         </div>
+        </div>
+       </div><!-- Burger Beef Premium -->
+       <div class="menu-card rounded-2xl overflow-hidden" style="background-color: #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="p-4" style="background: linear-gradient(135deg, #FFD54F 0%, #FFC107 100%); height: 140px; display: flex; align-items: center; justify-content: center;">
+         <svg width="80" height="80" viewbox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="40" cy="18" rx="32" ry="12" fill="#F4C430" /> <ellipse cx="40" cy="30" rx="30" ry="6" fill="#7CB342" /> <ellipse cx="40" cy="37" rx="31" ry="5" fill="#E53935" /> <ellipse cx="40" cy="44" rx="31" ry="6" fill="#FFD54F" /> <ellipse cx="40" cy="54" rx="32" ry="9" fill="#6D4C41" /> <ellipse cx="40" cy="64" rx="33" ry="10" fill="#F4C430" /> <circle cx="28" cy="16" r="3" fill="#E0A800" /> <circle cx="40" cy="14" r="3" fill="#E0A800" /> <circle cx="52" cy="16" r="3" fill="#E0A800" />
+         </svg>
+        </div>
+        <div class="p-4">
+         <h5 class="text-lg font-bold mb-1" style="color: #333333;">Beef Premium</h5>
+         <div class="flex justify-between items-center mt-3"><span class="text-xl font-bold" style="color: #FFC107;">Rp 18.000</span> <button onclick="orderItem('Burger Beef Premium', 18000)" class="px-4 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80" style="background-color: #FFC107; color: #333333;">Pesan</button>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Kebab Menu -->
+     <div>
+      <h4 class="text-3xl font-bold mb-8 text-center" style="color: #333333;">🌯 Menu Kebab</h4>
+      <div class="grid md:grid-cols-5 gap-6"><!-- Kebab Egg -->
+       <div class="menu-card rounded-2xl overflow-hidden" style="background-color: #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="p-4" style="background: linear-gradient(135deg, #FFC107 0%, #FFD54F 100%); height: 140px; display: flex; align-items: center; justify-content: center;">
+         <svg width="70" height="70" viewbox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="32" y="10" width="6" height="50" rx="3" fill="#8D6E63" /> <ellipse cx="35" cy="22" rx="13" ry="8" fill="#FFD54F" /> <ellipse cx="35" cy="32" rx="14" ry="9" fill="#A1887F" /> <ellipse cx="35" cy="43" rx="13" ry="8" fill="#FFD54F" /> <ellipse cx="35" cy="53" rx="13" ry="7" fill="#A1887F" /> <circle cx="35" cy="15" r="6" fill="#FFC107" />
+         </svg>
+        </div>
+        <div class="p-4">
+         <h5 class="text-base font-bold mb-1" style="color: #333333;">Kebab Egg</h5>
+         <div class="flex justify-between items-center mt-3"><span class="text-lg font-bold" style="color: #FFC107;">Rp 5.000</span> <button onclick="orderItem('Kebab Egg', 5000)" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80" style="background-color: #FFC107; color: #333333;">Pesan</button>
+         </div>
+        </div>
+       </div><!-- Kebab Egg Potato -->
+       <div class="menu-card rounded-2xl overflow-hidden" style="background-color: #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="p-4" style="background: linear-gradient(135deg, #FFD54F 0%, #FFC107 100%); height: 140px; display: flex; align-items: center; justify-content: center;">
+         <svg width="70" height="70" viewbox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="32" y="10" width="6" height="50" rx="3" fill="#8D6E63" /> <ellipse cx="35" cy="20" rx="14" ry="8" fill="#FFD54F" /> <ellipse cx="35" cy="30" rx="15" ry="9" fill="#F4C430" /> <ellipse cx="35" cy="41" rx="14" ry="8" fill="#A1887F" /> <ellipse cx="35" cy="52" rx="14" ry="8" fill="#FFD54F" /> <circle cx="35" cy="14" r="6" fill="#FFC107" />
+         </svg>
+        </div>
+        <div class="p-4">
+         <h5 class="text-base font-bold mb-1" style="color: #333333;">Egg Potato</h5>
+         <div class="flex justify-between items-center mt-3"><span class="text-lg font-bold" style="color: #FFC107;">Rp 7.000</span> <button onclick="orderItem('Kebab Egg Potato', 7000)" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80" style="background-color: #FFC107; color: #333333;">Pesan</button>
+         </div>
+        </div>
+       </div><!-- Kebab Sausage Potato -->
+       <div class="menu-card rounded-2xl overflow-hidden" style="background-color: #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="p-4" style="background: linear-gradient(135deg, #FFC107 0%, #FFD54F 100%); height: 140px; display: flex; align-items: center; justify-content: center;">
+         <svg width="70" height="70" viewbox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="32" y="10" width="6" height="50" rx="3" fill="#8D6E63" /> <ellipse cx="35" cy="20" rx="14" ry="8" fill="#E53935" /> <ellipse cx="35" cy="30" rx="15" ry="9" fill="#F4C430" /> <ellipse cx="35" cy="41" rx="14" ry="8" fill="#E53935" /> <ellipse cx="35" cy="52" rx="14" ry="8" fill="#A1887F" /> <circle cx="35" cy="14" r="6" fill="#FFC107" />
+         </svg>
+        </div>
+        <div class="p-4">
+         <h5 class="text-base font-bold mb-1" style="color: #333333;">Sausage Potato</h5>
+         <div class="flex justify-between items-center mt-3"><span class="text-lg font-bold" style="color: #FFC107;">Rp 9.000</span> <button onclick="orderItem('Kebab Sausage Potato', 9000)" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80" style="background-color: #FFC107; color: #333333;">Pesan</button>
+         </div>
+        </div>
+       </div><!-- Kebab Beef Potato -->
+       <div class="menu-card rounded-2xl overflow-hidden" style="background-color: #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="p-4" style="background: linear-gradient(135deg, #FFD54F 0%, #FFC107 100%); height: 140px; display: flex; align-items: center; justify-content: center;">
+         <svg width="70" height="70" viewbox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="32" y="10" width="6" height="50" rx="3" fill="#8D6E63" /> <ellipse cx="35" cy="20" rx="14" ry="8" fill="#8D6E63" /> <ellipse cx="35" cy="30" rx="15" ry="9" fill="#F4C430" /> <ellipse cx="35" cy="41" rx="14" ry="8" fill="#8D6E63" /> <ellipse cx="35" cy="52" rx="14" ry="8" fill="#A1887F" /> <circle cx="35" cy="14" r="6" fill="#FFC107" />
+         </svg>
+        </div>
+        <div class="p-4">
+         <h5 class="text-base font-bold mb-1" style="color: #333333;">Beef Potato</h5>
+         <div class="flex justify-between items-center mt-3"><span class="text-lg font-bold" style="color: #FFC107;">Rp 10.000</span> <button onclick="orderItem('Kebab Beef Potato', 10000)" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80" style="background-color: #FFC107; color: #333333;">Pesan</button>
+         </div>
+        </div>
+       </div><!-- Kebab Beef Premium -->
+       <div class="menu-card rounded-2xl overflow-hidden" style="background-color: #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="p-4" style="background: linear-gradient(135deg, #FFC107 0%, #FFD54F 100%); height: 140px; display: flex; align-items: center; justify-content: center;">
+         <svg width="70" height="70" viewbox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="32" y="10" width="6" height="50" rx="3" fill="#8D6E63" /> <ellipse cx="35" cy="19" rx="15" ry="9" fill="#8D6E63" /> <ellipse cx="35" cy="29" rx="16" ry="10" fill="#A1887F" /> <ellipse cx="35" cy="40" rx="15" ry="9" fill="#8D6E63" /> <ellipse cx="35" cy="51" rx="15" ry="9" fill="#A1887F" /> <circle cx="35" cy="13" r="7" fill="#FFC107" /> <ellipse cx="35" cy="24" rx="13" ry="3" fill="#E53935" /> <ellipse cx="35" cy="35" rx="13" ry="3" fill="#7CB342" /> <ellipse cx="35" cy="46" rx="13" ry="3" fill="#E53935" />
+         </svg>
+        </div>
+        <div class="p-4">
+         <h5 class="text-base font-bold mb-1" style="color: #333333;">Beef Premium</h5>
+         <div class="flex justify-between items-center mt-3"><span class="text-lg font-bold" style="color: #FFC107;">Rp 15.000</span> <button onclick="orderItem('Kebab Beef Premium', 15000)" class="px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:opacity-80" style="background-color: #FFC107; color: #333333;">Pesan</button>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
     </div>
+   </section><!-- Order Form Section -->
+   <section id="pesan" class="w-full py-20" style="background-color: #FFFFFF;">
+    <div class="max-w-4xl mx-auto px-6">
+     <div class="text-center mb-12">
+      <h3 class="text-4xl font-bold mb-4" style="color: #333333;">Form Pemesanan</h3>
+      <p class="text-lg" style="color: #666666;">Lengkapi data Anda untuk melakukan pemesanan</p>
+     </div>
+     <div class="rounded-3xl p-8 md:p-12" style="background-color: #FFF9E6; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+      <form id="orderForm" onsubmit="submitOrder(event)">
+       <div class="space-y-6">
+        <div><label for="customerName" class="block text-lg font-semibold mb-2" style="color: #333333;">Nama Lengkap <span style="color: #E53935;">*</span></label> <input type="text" id="customerName" name="customerName" required class="w-full px-4 py-3 rounded-xl border-2 transition-all focus:outline-none" style="border-color: #FFC107; background-color: #FFFFFF;" onfocus="this.style.borderColor='#E0A800'" onblur="this.style.borderColor='#FFC107'" placeholder="Masukkan nama lengkap Anda">
+        </div>
+        <div><label for="customerPhone" class="block text-lg font-semibold mb-2" style="color: #333333;">Nomor WhatsApp <span style="color: #E53935;">*</span></label> <input type="tel" id="customerPhone" name="customerPhone" required pattern="[0-9]+" class="w-full px-4 py-3 rounded-xl border-2 transition-all focus:outline-none" style="border-color: #FFC107; background-color: #FFFFFF;" onfocus="this.style.borderColor='#E0A800'" onblur="this.style.borderColor='#FFC107'" placeholder="Contoh: 085656884416">
+        </div>
+        <div><label for="customerAddress" class="block text-lg font-semibold mb-2" style="color: #333333;">Alamat Lengkap <span style="color: #E53935;">*</span></label> <textarea id="customerAddress" name="customerAddress" required rows="4" class="w-full px-4 py-3 rounded-xl border-2 transition-all focus:outline-none resize-none" style="border-color: #FFC107; background-color: #FFFFFF;" onfocus="this.style.borderColor='#E0A800'" onblur="this.style.borderColor='#FFC107'" placeholder="Masukkan alamat lengkap untuk pengiriman"></textarea>
+        </div>
+        <div id="selectedItemDisplay" class="hidden p-4 rounded-xl" style="background-color: #FFFFFF; border: 2px solid #FFC107;">
+         <p class="text-sm font-semibold mb-2" style="color: #333333;">Pesanan Anda:</p>
+         <p id="selectedItemText" class="text-lg font-bold" style="color: #FFC107;"></p>
+        </div><button type="submit" class="w-full px-8 py-4 rounded-full text-lg font-bold transition-all duration-300 hover:shadow-xl" style="background-color: #FFC107; color: #333333;" onmouseover="this.style.backgroundColor='#E0A800'" onmouseout="this.style.backgroundColor='#FFC107'"> Kirim Pesanan via WhatsApp 📱 </button>
+       </div>
+      </form>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="kontak" class="w-full py-20" style="background-color: #FFF9E6;">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="text-center mb-12">
+      <h3 id="contact-title" class="text-4xl font-bold mb-4" style="color: #333333;">Hubungi Kami</h3>
+      <p id="contact-subtitle" class="text-lg" style="color: #666666;">Kami siap melayani Anda</p>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8">
+      <div class="text-center p-8 rounded-2xl" style="background-color: #FFFFFF;">
+       <div class="text-5xl mb-4">
+        📍
+       </div>
+       <h4 class="text-xl font-bold mb-2" style="color: #333333;">Alamat</h4>
+       <p style="color: #666666;">Jl. Batua Raya No. 74 i</p>
+      </div>
+      <div class="text-center p-8 rounded-2xl" style="background-color: #FFFFFF;">
+       <div class="text-5xl mb-4">
+        📞
+       </div>
+       <h4 class="text-xl font-bold mb-2" style="color: #333333;">WhatsApp</h4>
+       <p style="color: #666666;">085656884416</p>
+      </div>
+      <div class="text-center p-8 rounded-2xl" style="background-color: #FFFFFF;">
+       <div class="text-5xl mb-4">
+        🕒
+       </div>
+       <h4 class="text-xl font-bold mb-2" style="color: #333333;">Jam Buka</h4>
+       <p style="color: #666666;">Setiap Hari<br>
+        10.00 - 22.00 WIB</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="w-full py-8" style="background-color: #FFC107;">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+     <p id="footer-text" class="text-base" style="color: #333333;">© 2024 GULAVA. Semua Hak Dilindungi.</p>
+    </div>
+   </footer>
   </div>
-</section>
+  <script>
+    // WhatsApp Order System
+    let selectedItem = null;
+    let selectedPrice = 0;
 
-<section id="order" style="padding:60px 20px; text-align:center; animation: fadeIn 1.2s ease;">
-  <h2 style="font-size:2.4rem; font-weight:700;">Form Pemesanan</h2>
-  <p style="color:#555;">Lengkapi data berikut untuk melakukan pemesanan.</p>
+    function orderItem(itemName, price) {
+      selectedItem = itemName;
+      selectedPrice = price;
+      
+      // Show selected item
+      const displayDiv = document.getElementById('selectedItemDisplay');
+      const textElement = document.getElementById('selectedItemText');
+      textElement.textContent = `${itemName} - Rp ${price.toLocaleString('id-ID')}`;
+      displayDiv.classList.remove('hidden');
+      
+      // Scroll to form
+      document.getElementById('pesan').scrollIntoView({ behavior: 'smooth' });
+    }
 
-  <form onsubmit="sendWA(event)" style="max-width:500px; margin:auto; text-align:left; background:white; padding:30px; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.1); animation: slideUp 1.2s ease;">
-    <label>Nama:</label>
-    <input id="nama" type="text" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid #ccc;">
+    function submitOrder(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('customerName').value;
+      const phone = document.getElementById('customerPhone').value;
+      const address = document.getElementById('customerAddress').value;
+      
+      // Create WhatsApp message
+      let message = `Halo, saya ingin memesan:%0A%0A`;
+      
+      if (selectedItem) {
+        message += `*Pesanan:* ${selectedItem}%0A`;
+        message += `*Harga:* Rp ${selectedPrice.toLocaleString('id-ID')}%0A%0A`;
+      }
+      
+      message += `*Nama:* ${name}%0A`;
+      message += `*No. WhatsApp:* ${phone}%0A`;
+      message += `*Alamat:* ${address}`;
+      
+      // WhatsApp business number
+      const waNumber = '6285656884416';
+      const waUrl = `https://wa.me/${waNumber}?text=${message}`;
+      
+      // Open WhatsApp in new tab
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+      
+      // Reset form
+      document.getElementById('orderForm').reset();
+      document.getElementById('selectedItemDisplay').classList.add('hidden');
+      selectedItem = null;
+      selectedPrice = 0;
+      
+      return false;
+    }
 
-    <label>Nomor HP:</label>
-    <input id="hp" type="text" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid:#ccc;">
+    const defaultConfig = {
+      background_color: "#FFFFFF",
+      secondary_surface_color: "#FFF9E6",
+      text_color: "#333333",
+      primary_action_color: "#FFC107",
+      secondary_action_color: "#666666",
+      font_family: "Poppins",
+      font_size: 16,
+      business_name: "GULAVA",
+      tagline: "🔥 Kelezatan Otentik",
+      hero_title: "GULAVA - Burger & Kebab Terbaik di Kota",
+      hero_subtitle: "Nikmati cita rasa istimewa dengan bahan berkualitas tinggi dan resep rahasia kami",
+      cta_button: "Lihat Menu",
+      menu_title: "Menu Spesial Kami",
+      contact_title: "Hubungi Kami",
+      contact_subtitle: "Kami siap melayani Anda",
+      footer_text: "© 2024 GULAVA. Semua Hak Dilindungi."
+    };
 
-    <label>Catatan Tambahan:</label>
-    <textarea id="catatan" style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid #ccc; height:100px;"></textarea>
+    async function onConfigChange(config) {
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.secondary_surface_color || defaultConfig.secondary_surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
 
-    <label>Pilih Menu:</label>
-    <select id="menuSelect" style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid #ccc;">
-      <option value="Burger Crispy Chicken">Burger Crispy Chicken - 12000</option>
-      <option value="Burger Crispy Chicken Cheese">Burger Crispy Chicken Cheese - 15000</option>
-      <option value="Burger Beef Classic">Burger Beef Classic - 17000</option>
-      <option value="Burger Beef Premium">Burger Beef Premium - 18000</option>
-      <option value="Kebab Egg">Kebab Egg - 5000</option>
-      <option value="Kebab Egg Potato">Kebab Egg Potato - 7000</option>
-      <option value="Kebab Sausage Potato">Kebab Sausage Potato - 9000</option>
-      <option value="Kebab Beef Potato">Kebab Beef Potato - 10000</option>
-      <option value="Kebab Beef Premium">Kebab Beef Premium - 15000</option>
-    </select>
+      document.body.style.fontFamily = `${fontFamily}, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`;
+      document.body.style.fontSize = `${fontSize}px`;
+      
+      const app = document.getElementById('app');
+      app.style.backgroundColor = backgroundColor;
+      
+      const navbar = document.getElementById('navbar');
+      navbar.style.backgroundColor = `rgba(255, 255, 255, 0.95)`;
+      
+      document.getElementById('nav-business-name').textContent = config.business_name || defaultConfig.business_name;
+      document.getElementById('nav-business-name').style.color = textColor;
+      document.getElementById('nav-business-name').style.fontSize = `${fontSize * 1.5}px`;
+      
+      const navLinks = navbar.querySelectorAll('a');
+      navLinks.forEach(link => {
+        link.style.color = textColor;
+        link.style.fontSize = `${fontSize}px`;
+      });
+      
+      const heroSection = document.getElementById('home');
+      heroSection.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${surfaceColor} 100%)`;
+      
+      document.getElementById('tagline').textContent = config.tagline || defaultConfig.tagline;
+      document.getElementById('tagline').style.color = textColor;
+      document.getElementById('tagline').style.fontSize = `${fontSize * 0.875}px`;
+      document.querySelector('#tagline').parentElement.style.backgroundColor = primaryColor;
+      
+      document.getElementById('hero-title').textContent = config.hero_title || defaultConfig.hero_title;
+      document.getElementById('hero-title').style.color = textColor;
+      document.getElementById('hero-title').style.fontSize = `${fontSize * 3.75}px`;
+      
+      document.getElementById('hero-subtitle').textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      document.getElementById('hero-subtitle').style.color = secondaryColor;
+      document.getElementById('hero-subtitle').style.fontSize = `${fontSize * 1.25}px`;
+      
+      document.getElementById('cta-button').textContent = config.cta_button || defaultConfig.cta_button;
+      document.getElementById('cta-button').style.backgroundColor = primaryColor;
+      document.getElementById('cta-button').style.color = textColor;
+      document.getElementById('cta-button').style.fontSize = `${fontSize * 1.125}px`;
+      
+      const secondaryButton = document.querySelector('button[onclick*="kontak"]');
+      secondaryButton.style.borderColor = primaryColor;
+      secondaryButton.style.color = textColor;
+      secondaryButton.style.fontSize = `${fontSize * 1.125}px`;
+      
+      const menuSection = document.getElementById('menu');
+      menuSection.style.backgroundColor = surfaceColor;
+      
+      document.getElementById('menu-title').textContent = config.menu_title || defaultConfig.menu_title;
+      document.getElementById('menu-title').style.color = textColor;
+      document.getElementById('menu-title').style.fontSize = `${fontSize * 2.5}px`;
+      
+      const menuTitles = menuSection.querySelectorAll('h4, h5');
+      menuTitles.forEach(title => {
+        title.style.color = textColor;
+      });
+      
+      const menuPrices = menuSection.querySelectorAll('.menu-card span');
+      menuPrices.forEach(price => {
+        price.style.color = primaryColor;
+      });
+      
+      const menuButtons = menuSection.querySelectorAll('.menu-card button');
+      menuButtons.forEach(btn => {
+        btn.style.backgroundColor = primaryColor;
+        btn.style.color = textColor;
+      });
+      
+      const contactSection = document.getElementById('kontak');
+      contactSection.style.backgroundColor = surfaceColor;
+      
+      document.getElementById('contact-title').textContent = config.contact_title || defaultConfig.contact_title;
+      document.getElementById('contact-title').style.color = textColor;
+      document.getElementById('contact-title').style.fontSize = `${fontSize * 2.5}px`;
+      
+      document.getElementById('contact-subtitle').textContent = config.contact_subtitle || defaultConfig.contact_subtitle;
+      document.getElementById('contact-subtitle').style.color = secondaryColor;
+      document.getElementById('contact-subtitle').style.fontSize = `${fontSize * 1.125}px`;
+      
+      const contactBoxes = contactSection.querySelectorAll('.rounded-2xl');
+      contactBoxes.forEach(box => {
+        box.style.backgroundColor = backgroundColor;
+      });
+      
+      const contactTitles = contactSection.querySelectorAll('h4');
+      contactTitles.forEach(title => {
+        title.style.color = textColor;
+        title.style.fontSize = `${fontSize * 1.25}px`;
+      });
+      
+      const contactTexts = contactSection.querySelectorAll('.rounded-2xl p');
+      contactTexts.forEach(text => {
+        text.style.color = secondaryColor;
+        text.style.fontSize = `${fontSize}px`;
+      });
+      
+      const footer = document.querySelector('footer');
+      footer.style.backgroundColor = primaryColor;
+      
+      document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+      document.getElementById('footer-text').style.color = textColor;
+      document.getElementById('footer-text').style.fontSize = `${fontSize}px`;
+    }
 
-    <label>Jumlah Pesanan:</label>
-    <input id="qty" type="number" min="1" value="1" style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid #ccc;">
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_surface_color || defaultConfig.secondary_surface_color,
+            set: (value) => {
+              config.secondary_surface_color = value;
+              window.elementSdk.setConfig({ secondary_surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
 
-    <p id="totalHarga" style="font-weight:600; font-size:1.1rem;">Total: Rp 0</p>
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["business_name", config.business_name || defaultConfig.business_name],
+        ["tagline", config.tagline || defaultConfig.tagline],
+        ["hero_title", config.hero_title || defaultConfig.hero_title],
+        ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+        ["cta_button", config.cta_button || defaultConfig.cta_button],
+        ["menu_title", config.menu_title || defaultConfig.menu_title],
+        ["contact_title", config.contact_title || defaultConfig.contact_title],
+        ["contact_subtitle", config.contact_subtitle || defaultConfig.contact_subtitle],
+        ["footer_text", config.footer_text || defaultConfig.footer_text]
+      ]);
+    }
 
-    <button type="submit" style="width:100%; padding:14px; background:#ffae00; border:none; border-radius:12px; font-size:1.1rem; font-weight:600; cursor:pointer;">Kirim Pesanan</button>
-  </form>
-</section>
-
-<footer>
-  <p>© 2025 Burger & Kebab Premium</p>
-</footer>
-
-<script>
-function updateTotal(){
-  const prices = {
-    "Burger Crispy Chicken":12000,
-    "Burger Crispy Chicken Cheese":15000,
-    "Burger Beef Classic":17000,
-    "Burger Beef Premium":18000,
-    "Kebab Egg":5000,
-    "Kebab Egg Potato":7000,
-    "Kebab Sausage Potato":9000,
-    "Kebab Beef Potato":10000,
-    "Kebab Beef Premium":15000
-  };
-  const menu = document.getElementById('menuSelect').value;
-  const qty = parseInt(document.getElementById('qty').value) || 1;
-  const total = prices[menu] * qty;
-  document.getElementById('totalHarga').innerText = "Total: Rp " + total.toLocaleString();
-}
-
-function sendWA(e){
-  e.preventDefault();
-  const nama = document.getElementById('nama').value;
-  const hp = document.getElementById('hp').value;
-  const catatan = document.getElementById('catatan').value;
-  const menu = document.getElementById('menuSelect').value;
-  const qty = document.getElementById('qty').value;
-
-  const pesan = `Halo, saya ingin pesan:%0A- Nama: ${nama}%0A- No HP: ${hp}%0A- Menu: ${menu}%0A- Jumlah: ${qty}%0A- Catatan: ${catatan}%0A`;
-
-  const noTujuan = '6285656884416';
-  window.open(`https://wa.me/${noTujuan}?text=${pesan}`, '_blank');
-}
-
-document.getElementById('menuSelect').addEventListener('change', updateTotal);
-document.getElementById('qty').addEventListener('input', updateTotal);
-updateTotal();
-</script>
-
-</body>
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a71a6b7402cfcfe',t:'MTc2NDU4MjMyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
