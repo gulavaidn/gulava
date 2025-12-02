@@ -417,6 +417,16 @@
      </div>
      <div><label for="customer-address" class="block text-xl font-black text-gray-800 mb-3 uppercase">Alamat Lengkap *</label> <textarea id="customer-address" required rows="3" class="w-full px-6 py-4 border-4 border-orange-400 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-300 text-lg font-bold bg-white resize-none shadow-lg" placeholder="Masukkan alamat lengkap untuk pengiriman"></textarea>
      </div>
+     <div><label class="block text-xl font-black text-gray-800 mb-3 uppercase">Metode Pembayaran *</label>
+      <div class="space-y-3"><label class="flex items-center gap-4 bg-white p-4 rounded-2xl border-4 border-orange-400 cursor-pointer hover:bg-orange-50 transition-all"> <input type="radio" name="payment-method" value="Transfer Bank BRI" required class="w-6 h-6 accent-orange-500">
+        <div class="flex items-center gap-3"><span class="text-3xl">🏦</span> <span class="font-black text-lg">Transfer Bank BRI</span>
+        </div></label> <label class="flex items-center gap-4 bg-white p-4 rounded-2xl border-4 border-orange-400 cursor-pointer hover:bg-orange-50 transition-all"> <input type="radio" name="payment-method" value="DANA" required class="w-6 h-6 accent-orange-500">
+        <div class="flex items-center gap-3"><span class="text-3xl">💳</span> <span class="font-black text-lg">DANA</span>
+        </div></label> <label class="flex items-center gap-4 bg-white p-4 rounded-2xl border-4 border-orange-400 cursor-pointer hover:bg-orange-50 transition-all"> <input type="radio" name="payment-method" value="QRIS" required class="w-6 h-6 accent-orange-500">
+        <div class="flex items-center gap-3"><span class="text-3xl">📱</span> <span class="font-black text-lg">QRIS</span>
+        </div></label>
+      </div>
+     </div>
      <div><label for="customer-notes" class="block text-xl font-black text-gray-800 mb-3 uppercase">Catatan (Opsional)</label> <textarea id="customer-notes" rows="3" class="w-full px-6 py-4 border-4 border-orange-400 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-300 text-lg font-bold bg-white resize-none shadow-lg" placeholder="Catatan tambahan untuk pesanan Anda"></textarea>
      </div>
      <div class="bg-gradient-to-br from-yellow-100 to-orange-100 p-6 rounded-2xl border-4 border-orange-400 shadow-xl">
@@ -600,13 +610,15 @@
       const name = document.getElementById('customer-name').value;
       const phone = document.getElementById('customer-phone').value;
       const address = document.getElementById('customer-address').value;
+      const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
       const notes = document.getElementById('customer-notes').value;
       
       // Format pesanan untuk WhatsApp
       let message = `*PESANAN BARU* 🍔🌯\n\n`;
       message += `*Nama:* ${name}\n`;
       message += `*No. HP:* ${phone}\n`;
-      message += `*Alamat:* ${address}\n\n`;
+      message += `*Alamat:* ${address}\n`;
+      message += `*Metode Pembayaran:* ${paymentMethod}\n\n`;
       message += `*DETAIL PESANAN:*\n`;
       message += `━━━━━━━━━━━━━━━━\n`;
       
@@ -776,5 +788,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7a07754031fede',t:'MTc2NDY3MDE3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7a1124002d3fb6',t:'MTc2NDY3MDU2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
