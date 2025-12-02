@@ -3,702 +3,773 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Burger &amp; Kebab Menu Catalog</title>
+  <title>Burger &amp; Kebab</title>
   <script src="/_sdk/element_sdk.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-        body {
-            box-sizing: border-box;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .float-animation {
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-        
-        .menu-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .menu-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-    </style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    }
+
+    .wavy-bg {
+      background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.05) 10px, rgba(255,255,255,.05) 20px),
+        linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    }
+
+    .cart-badge {
+      animation: bounce 0.3s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .menu-card {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .menu-card:hover::before {
+      left: 100%;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-12px) scale(1.03);
+      box-shadow: 0 25px 50px rgba(255, 165, 0, 0.4);
+    }
+
+    .btn-order {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-order::after {
+      content: '🔥';
+      position: absolute;
+      right: -30px;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .btn-order:hover::after {
+      right: 10px;
+      opacity: 1;
+    }
+
+    .btn-order:hover {
+      transform: scale(1.08);
+      box-shadow: 0 10px 30px rgba(255, 165, 0, 0.5);
+    }
+
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+    }
+
+    .quantity-btn {
+      transition: all 0.2s ease;
+    }
+
+    .quantity-btn:hover {
+      transform: scale(1.15) rotate(5deg);
+    }
+
+    .quantity-btn:active {
+      transform: scale(0.9);
+    }
+
+    .slide-in {
+      animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px) scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .price-tag {
+      background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+      color: white;
+      font-weight: 900;
+      padding: 8px 20px;
+      border-radius: 20px;
+      display: inline-block;
+      transform: rotate(-3deg);
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .spicy-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #FF4444;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 12px;
+      z-index: 10;
+      box-shadow: 0 4px 10px rgba(255, 68, 68, 0.4);
+    }
+
+    .zigzag {
+      position: relative;
+    }
+
+    .zigzag::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(135deg, #FFD700 25%, transparent 25%), 
+                  linear-gradient(225deg, #FFD700 25%, transparent 25%);
+      background-size: 20px 10px;
+      background-repeat: repeat-x;
+    }
+  </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body class="w-full min-h-full"><!-- Navigation -->
-  <nav id="navbar" class="w-full py-4 px-6 shadow-md fixed top-0 left-0 right-0 z-50">
-   <div class="max-w-6xl mx-auto flex justify-between items-center">
-    <div class="flex items-center space-x-3">
-     <div id="nav-logo" class="text-4xl">
-      🍔
-     </div>
-     <h1 id="nav-title" class="text-2xl font-bold">GULAVA</h1>
-    </div>
-    <div class="flex items-center space-x-4"><button id="cart-btn" class="relative px-6 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105 flex items-center space-x-2"> <span class="text-2xl">🛒</span> <span id="cart-count" class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-white text-xs flex items-center justify-center font-bold">0</span> </button> <button id="nav-cta" class="px-6 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105"> Pesan Sekarang </button>
-    </div>
+ <body class="w-full"><!-- Header -->
+  <header class="wavy-bg w-full shadow-2xl sticky top-0 z-50 zigzag">
+   <div class="max-w-7xl mx-auto px-4 py-5 flex justify-between items-center">
+    <h1 id="brand-name" class="text-4xl font-black text-white drop-shadow-lg" style="text-shadow: 3px 3px 0px rgba(0,0,0,0.2);">��� BURGER &amp; KEBAB</h1><button id="cart-btn" class="pulse relative bg-white text-orange-600 px-8 py-4 rounded-full font-black shadow-2xl hover:bg-yellow-50 transition-all border-4 border-orange-400"> 🛒 KERANJANG <span id="cart-count" class="absolute -top-3 -right-3 bg-red-500 text-white w-9 h-9 rounded-full flex items-center justify-center text-base font-black border-4 border-white shadow-lg">0</span> </button>
    </div>
-  </nav>
-  <div class="h-20"></div><!-- Hero Section -->
-  <section id="hero-section" class="w-full py-20 px-6">
-   <div class="max-w-6xl mx-auto text-center">
-    <div class="float-animation mb-8"><span class="text-8xl">🍔</span> <span class="text-8xl">🥙</span>
+  </header><!-- Hero Section -->
+  <section class="wavy-bg w-full py-24 relative overflow-hidden">
+   <div class="absolute top-10 left-10 text-9xl opacity-20 floating">
+    🍔
+   </div>
+   <div class="absolute bottom-10 right-10 text-9xl opacity-20 floating" style="animation-delay: 1s;">
+    🌯
+   </div>
+   <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+    <div class="inline-block mb-4 bg-red-500 text-white px-8 py-3 rounded-full font-black text-lg transform -rotate-2 shadow-2xl pulse">
+     🔥 PROMO SPESIAL HARI INI! 🔥
     </div>
-    <h2 id="hero-title" class="text-5xl font-bold mb-4 fade-in-up">Kelezatan Tiada Tara!</h2>
-    <p id="hero-description" class="text-xl mb-8 fade-in-up max-w-2xl mx-auto">Nikmati burger juicy dan kebab autentik yang dibuat dengan bahan premium pilihan. Setiap gigitan adalah pengalaman istimewa!</p><button id="hero-cta" class="px-8 py-4 rounded-full text-lg font-bold shadow-lg transition-all duration-300 hover:scale-105 fade-in-up"> Lihat Menu Lengkap </button>
+    <h2 id="hero-title" class="text-6xl md:text-7xl font-black text-white mb-6 drop-shadow-2xl" style="text-shadow: 4px 4px 0px rgba(0,0,0,0.3), 8px 8px 0px rgba(0,0,0,0.1);">BURGER &amp; KEBAB<br>
+     TERENAK! 😍</h2>
+    <p id="hero-subtitle" class="text-3xl font-bold text-white mb-10 drop-shadow-lg" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Nikmati kelezatan burger dan kebab<br>
+     dengan harga SUPER TERJANGKAU! 🤑</p><button onclick="document.getElementById('menu').scrollIntoView({behavior: 'smooth'})" class="bg-white text-orange-600 px-16 py-5 rounded-full text-2xl font-black shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all border-4 border-orange-400 pulse"> PESAN SEKARANG! 🍽️ </button>
    </div>
   </section><!-- Menu Section -->
-  <section id="menu-section" class="w-full py-16 px-6">
-   <div class="max-w-6xl mx-auto">
-    <h3 id="menu-title" class="text-4xl font-bold text-center mb-12">Menu Spesial Kami</h3><!-- Burger Section -->
-    <div class="mb-12">
-     <h4 class="text-2xl font-bold mb-6 flex items-center"><span class="text-3xl mr-3">🍔</span> <span id="burger-category">Menu Burger</span></h4>
+  <section id="menu" class="w-full py-20 bg-gradient-to-b from-orange-50 to-white">
+   <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-16">
+     <div class="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-2 rounded-full font-black text-sm mb-4 shadow-lg">
+      BEST SELLER 🏆
+     </div>
+     <h3 id="menu-title" class="text-5xl md:text-6xl font-black text-gray-800 mb-4" style="text-shadow: 2px 2px 0px rgba(255,165,0,0.2);">MENU PILIHAN KAMI</h3>
+     <p class="text-xl text-gray-600 font-bold">Dijamin Nagih &amp; Bikin Ketagihan! ��</p>
+    </div><!-- Burger Menu -->
+    <div class="mb-20">
+     <div class="flex items-center justify-center mb-10">
+      <div class="h-1 bg-gradient-to-r from-transparent via-orange-400 to-transparent flex-1 max-w-xs"></div>
+      <h4 class="text-4xl font-black text-orange-500 mx-6 px-8 py-3 bg-white rounded-full shadow-xl border-4 border-orange-400" style="text-shadow: 2px 2px 0px rgba(255,165,0,0.2);">🍔 BURGER</h4>
+      <div class="h-1 bg-gradient-to-r from-transparent via-orange-400 to-transparent flex-1 max-w-xs"></div>
+     </div>
      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="menu-card rounded-2xl p-6 shadow-lg">
-       <div class="text-5xl mb-4 text-center">
-        🍔
+      <div class="menu-card bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-orange-400 relative">
+       <div class="spicy-badge">
+        HOT! 🔥
        </div>
-       <h5 class="text-xl font-bold mb-2 text-center">Burger Crispy Chicken</h5>
-       <p class="text-2xl font-bold text-center mb-4">Rp 12.000</p>
-       <div class="flex items-center justify-center space-x-3 mb-3"><button class="qty-btn minus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Burger Crispy Chicken" data-price="12000">-</button> <span class="qty-display text-xl font-semibold w-12 text-center" data-item="Burger Crispy Chicken">0</span> <button class="qty-btn plus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Burger Crispy Chicken" data-price="12000">+</button>
-       </div><button class="add-to-cart-btn w-full py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105" data-item="Burger Crispy Chicken" data-price="12000"> Tambah ke Keranjang </button>
+       <div class="bg-gradient-to-br from-yellow-300 to-orange-400 h-56 flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-white opacity-10 transform rotate-45"></div><span class="text-9xl floating relative z-10">🍔</span>
+       </div>
+       <div class="p-6 bg-gradient-to-b from-white to-orange-50">
+        <h5 class="text-xl font-black text-gray-800 mb-3 uppercase">Burger Crispy Chicken</h5>
+        <div class="price-tag text-2xl mb-5">
+         Rp 12.000
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-4"><button onclick="updateQuantity(this, -1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">-</button> <input type="number" value="0" min="0" class="quantity-input w-16 text-center border-4 border-orange-400 rounded-xl font-black text-xl bg-yellow-50" readonly> <button onclick="updateQuantity(this, 1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">+</button>
+        </div><button onclick="addToCart('Burger Crispy Chicken', 12000, this)" class="btn-order w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-full font-black text-lg mt-2 hover:from-orange-600 hover:to-red-600 shadow-xl uppercase border-2 border-orange-600"> + Keranjang </button>
+       </div>
       </div>
-      <div class="menu-card rounded-2xl p-6 shadow-lg">
-       <div class="text-5xl mb-4 text-center">
-        🍔
+      <div class="menu-card bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-orange-400 relative">
+       <div class="spicy-badge">
+        PREMIUM ⭐
        </div>
-       <h5 class="text-xl font-bold mb-2 text-center">Burger Crispy Chicken Premium</h5>
-       <p class="text-2xl font-bold text-center mb-4">Rp 15.000</p>
-       <div class="flex items-center justify-center space-x-3 mb-3"><button class="qty-btn minus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Burger Crispy Chicken Premium" data-price="15000">-</button> <span class="qty-display text-xl font-semibold w-12 text-center" data-item="Burger Crispy Chicken Premium">0</span> <button class="qty-btn plus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Burger Crispy Chicken Premium" data-price="15000">+</button>
-       </div><button class="add-to-cart-btn w-full py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105" data-item="Burger Crispy Chicken Premium" data-price="15000"> Tambah ke Keranjang </button>
+       <div class="bg-gradient-to-br from-yellow-300 to-orange-400 h-56 flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-white opacity-10 transform rotate-45"></div><span class="text-9xl floating relative z-10" style="animation-delay: 0.5s;">🍔</span>
+       </div>
+       <div class="p-6 bg-gradient-to-b from-white to-orange-50">
+        <h5 class="text-xl font-black text-gray-800 mb-3 uppercase">Burger Crispy Chicken Premium</h5>
+        <div class="price-tag text-2xl mb-5">
+         Rp 15.000
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-4"><button onclick="updateQuantity(this, -1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">-</button> <input type="number" value="0" min="0" class="quantity-input w-16 text-center border-4 border-orange-400 rounded-xl font-black text-xl bg-yellow-50" readonly> <button onclick="updateQuantity(this, 1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">+</button>
+        </div><button onclick="addToCart('Burger Crispy Chicken Premium', 15000, this)" class="btn-order w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-full font-black text-lg mt-2 hover:from-orange-600 hover:to-red-600 shadow-xl uppercase border-2 border-orange-600"> + Keranjang </button>
+       </div>
       </div>
-      <div class="menu-card rounded-2xl p-6 shadow-lg">
-       <div class="text-5xl mb-4 text-center">
-        🍔
+      <div class="menu-card bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-orange-400 relative">
+       <div class="spicy-badge">
+        BEST! 🏆
        </div>
-       <h5 class="text-xl font-bold mb-2 text-center">Burger Beef Classic</h5>
-       <p class="text-2xl font-bold text-center mb-4">Rp 17.000</p>
-       <div class="flex items-center justify-center space-x-3 mb-3"><button class="qty-btn minus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Burger Beef Classic" data-price="17000">-</button> <span class="qty-display text-xl font-semibold w-12 text-center" data-item="Burger Beef Classic">0</span> <button class="qty-btn plus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Burger Beef Classic" data-price="17000">+</button>
-       </div><button class="add-to-cart-btn w-full py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105" data-item="Burger Beef Classic" data-price="17000"> Tambah ke Keranjang </button>
+       <div class="bg-gradient-to-br from-yellow-300 to-orange-400 h-56 flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-white opacity-10 transform rotate-45"></div><span class="text-9xl floating relative z-10" style="animation-delay: 1s;">🍔</span>
+       </div>
+       <div class="p-6 bg-gradient-to-b from-white to-orange-50">
+        <h5 class="text-xl font-black text-gray-800 mb-3 uppercase">Burger Beef Classic</h5>
+        <div class="price-tag text-2xl mb-5">
+         Rp 17.000
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-4"><button onclick="updateQuantity(this, -1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">-</button> <input type="number" value="0" min="0" class="quantity-input w-16 text-center border-4 border-orange-400 rounded-xl font-black text-xl bg-yellow-50" readonly> <button onclick="updateQuantity(this, 1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">+</button>
+        </div><button onclick="addToCart('Burger Beef Classic', 17000, this)" class="btn-order w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-full font-black text-lg mt-2 hover:from-orange-600 hover:to-red-600 shadow-xl uppercase border-2 border-orange-600"> + Keranjang </button>
+       </div>
       </div>
-      <div class="menu-card rounded-2xl p-6 shadow-lg">
-       <div class="text-5xl mb-4 text-center">
-        🍔
+      <div class="menu-card bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-orange-400 relative">
+       <div class="spicy-badge">
+        SPESIAL! 💎
        </div>
-       <h5 class="text-xl font-bold mb-2 text-center">Burger Beef Premium</h5>
-       <p class="text-2xl font-bold text-center mb-4">Rp 18.000</p>
-       <div class="flex items-center justify-center space-x-3 mb-3"><button class="qty-btn minus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Burger Beef Premium" data-price="18000">-</button> <span class="qty-display text-xl font-semibold w-12 text-center" data-item="Burger Beef Premium">0</span> <button class="qty-btn plus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Burger Beef Premium" data-price="18000">+</button>
-       </div><button class="add-to-cart-btn w-full py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105" data-item="Burger Beef Premium" data-price="18000"> Tambah ke Keranjang </button>
+       <div class="bg-gradient-to-br from-yellow-300 to-orange-400 h-56 flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-white opacity-10 transform rotate-45"></div><span class="text-9xl floating relative z-10" style="animation-delay: 1.5s;">🍔</span>
+       </div>
+       <div class="p-6 bg-gradient-to-b from-white to-orange-50">
+        <h5 class="text-xl font-black text-gray-800 mb-3 uppercase">Burger Beef Premium</h5>
+        <div class="price-tag text-2xl mb-5">
+         Rp 18.000
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-4"><button onclick="updateQuantity(this, -1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">-</button> <input type="number" value="0" min="0" class="quantity-input w-16 text-center border-4 border-orange-400 rounded-xl font-black text-xl bg-yellow-50" readonly> <button onclick="updateQuantity(this, 1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">+</button>
+        </div><button onclick="addToCart('Burger Beef Premium', 18000, this)" class="btn-order w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-full font-black text-lg mt-2 hover:from-orange-600 hover:to-red-600 shadow-xl uppercase border-2 border-orange-600"> + Keranjang </button>
+       </div>
       </div>
      </div>
-    </div><!-- Kebab Section -->
+    </div><!-- Kebab Menu -->
     <div>
-     <h4 class="text-2xl font-bold mb-6 flex items-center"><span class="text-3xl mr-3">🥙</span> <span id="kebab-category">Menu Kebab</span></h4>
-     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-      <div class="menu-card rounded-2xl p-6 shadow-lg">
-       <div class="text-5xl mb-4 text-center">
-        🥙
+     <div class="flex items-center justify-center mb-10">
+      <div class="h-1 bg-gradient-to-r from-transparent via-orange-400 to-transparent flex-1 max-w-xs"></div>
+      <h4 class="text-4xl font-black text-orange-500 mx-6 px-8 py-3 bg-white rounded-full shadow-xl border-4 border-orange-400" style="text-shadow: 2px 2px 0px rgba(255,165,0,0.2);">🌯 KEBAB</h4>
+      <div class="h-1 bg-gradient-to-r from-transparent via-orange-400 to-transparent flex-1 max-w-xs"></div>
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="menu-card bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-orange-400 relative">
+       <div class="spicy-badge">
+        HEMAT! 💰
        </div>
-       <h5 class="text-xl font-bold mb-2 text-center">Kebab Egg</h5>
-       <p class="text-2xl font-bold text-center mb-4">Rp 5.000</p>
-       <div class="flex items-center justify-center space-x-3 mb-3"><button class="qty-btn minus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Egg" data-price="5000">-</button> <span class="qty-display text-xl font-semibold w-12 text-center" data-item="Kebab Egg">0</span> <button class="qty-btn plus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Egg" data-price="5000">+</button>
-       </div><button class="add-to-cart-btn w-full py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105" data-item="Kebab Egg" data-price="5000"> Tambah ke Keranjang </button>
+       <div class="bg-gradient-to-br from-yellow-300 to-orange-400 h-56 flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-white opacity-10 transform rotate-45"></div><span class="text-9xl floating relative z-10">🌯</span>
+       </div>
+       <div class="p-6 bg-gradient-to-b from-white to-orange-50">
+        <h5 class="text-xl font-black text-gray-800 mb-3 uppercase">Kebab Egg</h5>
+        <div class="price-tag text-2xl mb-5">
+         Rp 5.000
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-4"><button onclick="updateQuantity(this, -1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">-</button> <input type="number" value="0" min="0" class="quantity-input w-16 text-center border-4 border-orange-400 rounded-xl font-black text-xl bg-yellow-50" readonly> <button onclick="updateQuantity(this, 1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">+</button>
+        </div><button onclick="addToCart('Kebab Egg', 5000, this)" class="btn-order w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-full font-black text-lg mt-2 hover:from-orange-600 hover:to-red-600 shadow-xl uppercase border-2 border-orange-600"> + Keranjang </button>
+       </div>
       </div>
-      <div class="menu-card rounded-2xl p-6 shadow-lg">
-       <div class="text-5xl mb-4 text-center">
-        🥙
+      <div class="menu-card bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-orange-400 relative">
+       <div class="spicy-badge">
+        FAVORIT! ❤️
        </div>
-       <h5 class="text-xl font-bold mb-2 text-center">Kebab Egg Potato</h5>
-       <p class="text-2xl font-bold text-center mb-4">Rp 7.000</p>
-       <div class="flex items-center justify-center space-x-3 mb-3"><button class="qty-btn minus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Egg Potato" data-price="7000">-</button> <span class="qty-display text-xl font-semibold w-12 text-center" data-item="Kebab Egg Potato">0</span> <button class="qty-btn plus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Egg Potato" data-price="7000">+</button>
-       </div><button class="add-to-cart-btn w-full py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105" data-item="Kebab Egg Potato" data-price="7000"> Tambah ke Keranjang </button>
+       <div class="bg-gradient-to-br from-yellow-300 to-orange-400 h-56 flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-white opacity-10 transform rotate-45"></div><span class="text-9xl floating relative z-10" style="animation-delay: 0.3s;">🌯</span>
+       </div>
+       <div class="p-6 bg-gradient-to-b from-white to-orange-50">
+        <h5 class="text-xl font-black text-gray-800 mb-3 uppercase">Kebab Egg Potato</h5>
+        <div class="price-tag text-2xl mb-5">
+         Rp 7.000
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-4"><button onclick="updateQuantity(this, -1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">-</button> <input type="number" value="0" min="0" class="quantity-input w-16 text-center border-4 border-orange-400 rounded-xl font-black text-xl bg-yellow-50" readonly> <button onclick="updateQuantity(this, 1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">+</button>
+        </div><button onclick="addToCart('Kebab Egg Potato', 7000, this)" class="btn-order w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-full font-black text-lg mt-2 hover:from-orange-600 hover:to-red-600 shadow-xl uppercase border-2 border-orange-600"> + Keranjang </button>
+       </div>
       </div>
-      <div class="menu-card rounded-2xl p-6 shadow-lg">
-       <div class="text-5xl mb-4 text-center">
-        🥙
+      <div class="menu-card bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-orange-400 relative">
+       <div class="spicy-badge">
+        ENAK! 😋
        </div>
-       <h5 class="text-xl font-bold mb-2 text-center">Kebab Sausage Potato</h5>
-       <p class="text-2xl font-bold text-center mb-4">Rp 9.000</p>
-       <div class="flex items-center justify-center space-x-3 mb-3"><button class="qty-btn minus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Sausage Potato" data-price="9000">-</button> <span class="qty-display text-xl font-semibold w-12 text-center" data-item="Kebab Sausage Potato">0</span> <button class="qty-btn plus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Sausage Potato" data-price="9000">+</button>
-       </div><button class="add-to-cart-btn w-full py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105" data-item="Kebab Sausage Potato" data-price="9000"> Tambah ke Keranjang </button>
+       <div class="bg-gradient-to-br from-yellow-300 to-orange-400 h-56 flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-white opacity-10 transform rotate-45"></div><span class="text-9xl floating relative z-10" style="animation-delay: 0.6s;">🌯</span>
+       </div>
+       <div class="p-6 bg-gradient-to-b from-white to-orange-50">
+        <h5 class="text-xl font-black text-gray-800 mb-3 uppercase">Kebab Sausage Potato</h5>
+        <div class="price-tag text-2xl mb-5">
+         Rp 9.000
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-4"><button onclick="updateQuantity(this, -1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">-</button> <input type="number" value="0" min="0" class="quantity-input w-16 text-center border-4 border-orange-400 rounded-xl font-black text-xl bg-yellow-50" readonly> <button onclick="updateQuantity(this, 1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">+</button>
+        </div><button onclick="addToCart('Kebab Sausage Potato', 9000, this)" class="btn-order w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-full font-black text-lg mt-2 hover:from-orange-600 hover:to-red-600 shadow-xl uppercase border-2 border-orange-600"> + Keranjang </button>
+       </div>
       </div>
-      <div class="menu-card rounded-2xl p-6 shadow-lg">
-       <div class="text-5xl mb-4 text-center">
-        🥙
+      <div class="menu-card bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-orange-400 relative">
+       <div class="spicy-badge">
+        MANTAP! 💪
        </div>
-       <h5 class="text-xl font-bold mb-2 text-center">Kebab Beef Potato</h5>
-       <p class="text-2xl font-bold text-center mb-4">Rp 10.000</p>
-       <div class="flex items-center justify-center space-x-3 mb-3"><button class="qty-btn minus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Beef Potato" data-price="10000">-</button> <span class="qty-display text-xl font-semibold w-12 text-center" data-item="Kebab Beef Potato">0</span> <button class="qty-btn plus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Beef Potato" data-price="10000">+</button>
-       </div><button class="add-to-cart-btn w-full py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105" data-item="Kebab Beef Potato" data-price="10000"> Tambah ke Keranjang </button>
+       <div class="bg-gradient-to-br from-yellow-300 to-orange-400 h-56 flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-white opacity-10 transform rotate-45"></div><span class="text-9xl floating relative z-10" style="animation-delay: 0.9s;">🌯</span>
+       </div>
+       <div class="p-6 bg-gradient-to-b from-white to-orange-50">
+        <h5 class="text-xl font-black text-gray-800 mb-3 uppercase">Kebab Beef Potato</h5>
+        <div class="price-tag text-2xl mb-5">
+         Rp 10.000
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-4"><button onclick="updateQuantity(this, -1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">-</button> <input type="number" value="0" min="0" class="quantity-input w-16 text-center border-4 border-orange-400 rounded-xl font-black text-xl bg-yellow-50" readonly> <button onclick="updateQuantity(this, 1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">+</button>
+        </div><button onclick="addToCart('Kebab Beef Potato', 10000, this)" class="btn-order w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-full font-black text-lg mt-2 hover:from-orange-600 hover:to-red-600 shadow-xl uppercase border-2 border-orange-600"> + Keranjang </button>
+       </div>
       </div>
-      <div class="menu-card rounded-2xl p-6 shadow-lg">
-       <div class="text-5xl mb-4 text-center">
-        🥙
+      <div class="menu-card bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-orange-400 relative">
+       <div class="spicy-badge">
+        TOP! 👑
        </div>
-       <h5 class="text-xl font-bold mb-2 text-center">Kebab Beef Premium</h5>
-       <p class="text-2xl font-bold text-center mb-4">Rp 15.000</p>
-       <div class="flex items-center justify-center space-x-3 mb-3"><button class="qty-btn minus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Beef Premium" data-price="15000">-</button> <span class="qty-display text-xl font-semibold w-12 text-center" data-item="Kebab Beef Premium">0</span> <button class="qty-btn plus-btn w-10 h-10 rounded-full font-bold text-xl" data-item="Kebab Beef Premium" data-price="15000">+</button>
-       </div><button class="add-to-cart-btn w-full py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105" data-item="Kebab Beef Premium" data-price="15000"> Tambah ke Keranjang </button>
+       <div class="bg-gradient-to-br from-yellow-300 to-orange-400 h-56 flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-white opacity-10 transform rotate-45"></div><span class="text-9xl floating relative z-10" style="animation-delay: 1.2s;">🌯</span>
+       </div>
+       <div class="p-6 bg-gradient-to-b from-white to-orange-50">
+        <h5 class="text-xl font-black text-gray-800 mb-3 uppercase">Kebab Beef Premium</h5>
+        <div class="price-tag text-2xl mb-5">
+         Rp 15.000
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-4"><button onclick="updateQuantity(this, -1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">-</button> <input type="number" value="0" min="0" class="quantity-input w-16 text-center border-4 border-orange-400 rounded-xl font-black text-xl bg-yellow-50" readonly> <button onclick="updateQuantity(this, 1)" class="quantity-btn bg-orange-400 text-white w-12 h-12 rounded-full font-black hover:bg-orange-500 shadow-lg text-2xl">+</button>
+        </div><button onclick="addToCart('Kebab Beef Premium', 15000, this)" class="btn-order w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-full font-black text-lg mt-2 hover:from-orange-600 hover:to-red-600 shadow-xl uppercase border-2 border-orange-600"> + Keranjang </button>
+       </div>
       </div>
      </div>
     </div>
-   </div>
-  </section><!-- Call to Action Section -->
-  <section id="cta-section" class="w-full py-16 px-6">
-   <div class="max-w-4xl mx-auto text-center rounded-3xl p-12 shadow-2xl">
-    <div class="text-6xl mb-6">
-     🎉
-    </div>
-    <h3 id="cta-title" class="text-3xl font-bold mb-4">Siap Merasakan Kelezatannya?</h3>
-    <p id="cta-description" class="text-lg mb-8">Pesan sekarang dan dapatkan promo spesial untuk pembelian pertama!</p><button id="cta-order-button" class="px-10 py-4 rounded-full text-xl font-bold shadow-lg transition-all duration-300 hover:scale-105"> Pesan Sekarang Juga! </button>
    </div>
   </section><!-- Footer -->
-  <footer id="footer" class="w-full py-8 px-6 text-center">
-   <p id="footer-text" class="text-lg">© 2024 GULAVA - Kelezatan yang Tak Terlupakan</p>
+  <footer class="wavy-bg w-full py-12 relative">
+   <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+    <div class="mb-4"><span class="text-5xl">🍔🌯</span>
+    </div>
+    <p id="footer-text" class="text-white text-xl font-black mb-2" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">© 2024 BURGER &amp; KEBAB</p>
+    <p class="text-white text-lg font-bold opacity-90">Semua Hak Dilindungi - Dijamin Enak &amp; Murah! 🔥</p>
+   </div>
   </footer><!-- Cart Modal -->
-  <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-   <div id="cart-modal-content" class="rounded-3xl w-full max-w-2xl max-h-[90%] overflow-y-auto shadow-2xl">
-    <div class="p-6 border-b-2">
-     <div class="flex justify-between items-center">
-      <h3 class="text-3xl font-bold">🛒 Keranjang Belanja</h3><button id="close-cart" class="text-4xl hover:scale-110 transition-transform">×</button>
-     </div>
+  <div id="cart-modal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center">
+   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90%] overflow-y-auto slide-in border-8 border-orange-400">
+    <div class="wavy-bg p-8 rounded-t-3xl flex justify-between items-center sticky top-0 border-b-4 border-white">
+     <h3 class="text-4xl font-black text-white" style="text-shadow: 3px 3px 0px rgba(0,0,0,0.2);">🛒 KERANJANG BELANJA</h3><button onclick="closeCart()" class="text-white text-5xl hover:text-gray-200 transition-all font-black bg-red-500 w-14 h-14 rounded-full flex items-center justify-center hover:bg-red-600 shadow-xl">×</button>
     </div>
-    <div id="cart-items" class="p-6">
-     <p class="text-center text-lg py-8">Keranjang Anda masih kosong</p>
+    <div id="cart-items" class="p-8 bg-gradient-to-b from-orange-50 to-white">
+     <p class="text-center text-gray-500 text-xl py-12 font-bold">Keranjang Anda masih kosong ���</p>
     </div>
-    <div id="cart-footer" class="p-6 border-t-2">
-     <div class="flex justify-between items-center mb-4"><span class="text-2xl font-bold">Total:</span> <span id="cart-total" class="text-3xl font-bold">Rp 0</span>
-     </div><button id="checkout-btn" class="w-full py-4 rounded-full text-xl font-bold shadow-lg transition-all duration-300 hover:scale-105"> Checkout Sekarang </button>
+    <div id="cart-footer" class="hidden border-t-8 border-orange-400 p-8 bg-gradient-to-b from-yellow-50 to-orange-50 rounded-b-3xl">
+     <div class="flex justify-between items-center mb-6 bg-white p-6 rounded-2xl shadow-lg border-4 border-orange-300"><span class="text-3xl font-black text-gray-800">TOTAL BAYAR:</span> <span id="cart-total" class="text-4xl font-black text-orange-600">Rp 0</span>
+     </div><button onclick="showOrderForm()" class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-6 rounded-full text-2xl font-black hover:from-orange-600 hover:to-red-600 shadow-2xl transform hover:scale-105 transition-all uppercase border-4 border-orange-600 pulse"> LANJUT PEMESANAN 🚀 </button>
     </div>
    </div>
   </div><!-- Order Form Modal -->
-  <div id="order-form-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-   <div id="order-form-content" class="rounded-3xl w-full max-w-2xl max-h-[90%] overflow-y-auto shadow-2xl">
-    <div class="p-6 border-b-2">
-     <div class="flex justify-between items-center">
-      <h3 class="text-3xl font-bold">📝 Form Pesanan</h3><button id="close-order-form" class="text-4xl hover:scale-110 transition-transform">×</button>
-     </div>
+  <div id="order-modal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center">
+   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90%] overflow-y-auto slide-in border-8 border-orange-400">
+    <div class="wavy-bg p-8 rounded-t-3xl flex justify-between items-center sticky top-0 border-b-4 border-white">
+     <h3 class="text-4xl font-black text-white" style="text-shadow: 3px 3px 0px rgba(0,0,0,0.2);">📝 FORM PEMESANAN</h3><button onclick="closeOrderForm()" class="text-white text-5xl hover:text-gray-200 transition-all font-black bg-red-500 w-14 h-14 rounded-full flex items-center justify-center hover:bg-red-600 shadow-xl">×</button>
     </div>
-    <form id="order-form" class="p-6 space-y-4">
-     <div><label for="customer-name" class="block text-lg font-semibold mb-2">Nama Lengkap *</label> <input type="text" id="customer-name" name="customer-name" required class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="Masukkan nama Anda">
+    <form id="order-form" class="p-8 space-y-6 bg-gradient-to-b from-orange-50 to-white">
+     <div><label for="customer-name" class="block text-xl font-black text-gray-800 mb-3 uppercase">Nama Lengkap *</label> <input type="text" id="customer-name" required class="w-full px-6 py-4 border-4 border-orange-400 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-300 text-lg font-bold bg-white shadow-lg" placeholder="Masukkan nama Anda">
      </div>
-     <div><label for="customer-phone" class="block text-lg font-semibold mb-2">No. WhatsApp *</label> <input type="tel" id="customer-phone" name="customer-phone" required class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="08xxxxxxxxxx">
+     <div><label for="customer-phone" class="block text-xl font-black text-gray-800 mb-3 uppercase">No. HP / WhatsApp *</label> <input type="tel" id="customer-phone" required class="w-full px-6 py-4 border-4 border-orange-400 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-300 text-lg font-bold bg-white shadow-lg" placeholder="08xxxxxxxxxx">
      </div>
-     <div><label for="customer-address" class="block text-lg font-semibold mb-2">Alamat Lengkap *</label> <textarea id="customer-address" name="customer-address" required rows="3" class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="Jalan, No. Rumah, RT/RW, Kelurahan, Kecamatan"></textarea>
+     <div><label for="customer-address" class="block text-xl font-black text-gray-800 mb-3 uppercase">Alamat Lengkap *</label> <textarea id="customer-address" required rows="3" class="w-full px-6 py-4 border-4 border-orange-400 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-300 text-lg font-bold bg-white resize-none shadow-lg" placeholder="Masukkan alamat lengkap untuk pengiriman"></textarea>
      </div>
-     <div><label for="payment-method" class="block text-lg font-semibold mb-2">Metode Pembayaran</label> <select id="payment-method" name="payment-method" class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"> <option value="Cash">Cash (Bayar di Tempat)</option> <option value="Transfer Bank">Transfer Bank</option> <option value="E-Wallet">E-Wallet (OVO/GoPay/Dana)</option> </select>
+     <div><label for="customer-notes" class="block text-xl font-black text-gray-800 mb-3 uppercase">Catatan (Opsional)</label> <textarea id="customer-notes" rows="3" class="w-full px-6 py-4 border-4 border-orange-400 rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-300 text-lg font-bold bg-white resize-none shadow-lg" placeholder="Catatan tambahan untuk pesanan Anda"></textarea>
      </div>
-     <div><label for="order-notes" class="block text-lg font-semibold mb-2">Catatan Pesanan (Opsional)</label> <textarea id="order-notes" name="order-notes" rows="2" class="w-full px-4 py-3 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-yellow-500" placeholder="Contoh: Tanpa cabai, sambel terpisah, dll"></textarea>
-     </div>
-     <div class="border-t-2 pt-4 mt-4">
-      <h4 class="text-xl font-bold mb-3">Ringkasan Pesanan:</h4>
-      <div id="order-summary" class="space-y-2 mb-4"></div>
-      <div class="flex justify-between items-center"><span class="text-2xl font-bold">Total Pembayaran:</span> <span id="order-form-total" class="text-3xl font-bold">Rp 0</span>
+     <div class="bg-gradient-to-br from-yellow-100 to-orange-100 p-6 rounded-2xl border-4 border-orange-400 shadow-xl">
+      <h4 class="font-black text-2xl text-gray-800 mb-4 uppercase">🧾 Ringkasan Pesanan:</h4>
+      <div id="order-summary" class="text-gray-700 font-bold text-lg mb-3"></div>
+      <div class="border-t-4 border-orange-500 mt-4 pt-4 flex justify-between items-center bg-white p-4 rounded-xl shadow-lg"><span class="font-black text-2xl">TOTAL BAYAR:</span> <span id="order-total" class="text-3xl font-black text-orange-600">Rp 0</span>
       </div>
-     </div><button type="submit" id="submit-order-btn" class="w-full py-4 rounded-full text-xl font-bold shadow-lg transition-all duration-300 hover:scale-105"> Kirim Pesanan ke WhatsApp </button>
+     </div><button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-6 rounded-full text-2xl font-black hover:from-orange-600 hover:to-red-600 shadow-2xl transform hover:scale-105 transition-all uppercase border-4 border-orange-600 pulse"> KIRIM PESANAN SEKARANG! 📦 </button>
     </form>
+   </div>
+  </div><!-- Success Modal -->
+  <div id="success-modal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center">
+   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md mx-4 p-10 text-center slide-in border-8 border-green-400">
+    <div class="text-8xl mb-6 pulse">
+     🎉
+    </div>
+    <h3 class="text-4xl font-black text-gray-800 mb-4 uppercase">PESANAN BERHASIL!</h3>
+    <p class="text-xl font-bold text-gray-600 mb-8">Terima kasih telah memesan! 🙏<br>
+     Kami akan segera menghubungi Anda. 📱</p><button onclick="closeSuccessModal()" class="bg-gradient-to-r from-green-500 to-green-600 text-white px-12 py-4 rounded-full text-xl font-black hover:from-green-600 hover:to-green-700 shadow-2xl transform hover:scale-105 transition-all uppercase border-4 border-green-700"> MANTAP! 👍 </button>
    </div>
   </div>
   <script>
-        // Cart data
-        let cart = {};
+    const defaultConfig = {
+      brand_name: "🍔 GULAVA - Burger & Kebab",
+      hero_title: "Burger & Kebab Terenak!",
+      hero_subtitle: "Nikmati kelezatan burger dan kebab dengan harga terjangkau",
+      menu_title: "Menu Pilihan Kami",
+      footer_text: "© 2024 Burger & Kebab. Semua Hak Dilindungi.",
+      background_color: "#FCD34D",
+      surface_color: "#FFFFFF",
+      text_color: "#1F2937",
+      primary_action_color: "#FBBF24",
+      secondary_action_color: "#F59E0B",
+      font_family: "system-ui, -apple-system, sans-serif",
+      font_size: 16
+    };
+
+    let cart = [];
+
+    function updateQuantity(button, change) {
+      const card = button.closest('.p-6');
+      const input = card.querySelector('.quantity-input');
+      let value = parseInt(input.value) || 0;
+      value = Math.max(0, value + change);
+      input.value = value;
+    }
+
+    function addToCart(name, price, button) {
+      const card = button.closest('.p-6');
+      const quantity = parseInt(card.querySelector('.quantity-input').value);
+      
+      if (quantity === 0) return;
+      
+      const existingItem = cart.find(item => item.name === name);
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({ name, price, quantity });
+      }
+      
+      updateCartDisplay();
+      
+      const badge = document.getElementById('cart-count');
+      badge.classList.add('cart-badge');
+      setTimeout(() => badge.classList.remove('cart-badge'), 300);
+      
+      card.querySelector('.quantity-input').value = 0;
+    }
+
+    function updateCartDisplay() {
+      const cartCount = document.getElementById('cart-count');
+      const cartItems = document.getElementById('cart-items');
+      const cartFooter = document.getElementById('cart-footer');
+      const cartTotal = document.getElementById('cart-total');
+      
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = totalItems;
+      
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p class="text-center text-gray-500 text-lg py-8">Keranjang Anda masih kosong</p>';
+        cartFooter.classList.add('hidden');
+        return;
+      }
+      
+      cartFooter.classList.remove('hidden');
+      
+      let total = 0;
+      let html = '<div class="space-y-5">';
+      
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
         
-        const defaultConfig = {
-            background_color: "#FFFFFF",
-            surface_color: "#FFD700",
-            text_color: "#2D2D2D",
-            primary_action_color: "#FFD700",
-            secondary_action_color: "#FFC107",
-            font_family: "system-ui",
-            font_size: 16,
-            business_name: "GULAVA",
-            tagline: "Pesan Sekarang",
-            hero_title: "Kelezatan Tiada Tara!",
-            hero_description: "Nikmati burger juicy dan kebab autentik yang dibuat dengan bahan premium pilihan. Setiap gigitan adalah pengalaman istimewa!",
-            cta_button: "Lihat Menu Lengkap",
-            menu_title: "Menu Spesial Kami",
-            footer_text: "© 2024 GULAVA - Kelezatan yang Tak Terlupakan"
-        };
+        html += `
+          <div class="flex justify-between items-center bg-white p-5 rounded-2xl border-4 border-orange-300 shadow-lg hover:shadow-xl transition-all">
+            <div class="flex-1">
+              <h4 class="font-black text-gray-800 text-xl uppercase">${item.name}</h4>
+              <p class="text-orange-600 font-black text-lg">Rp ${item.price.toLocaleString('id-ID')} x ${item.quantity}</p>
+              <p class="text-gray-500 font-bold text-sm mt-1">Subtotal: Rp ${itemTotal.toLocaleString('id-ID')}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="updateCartQuantity(${index}, -1)" class="quantity-btn bg-orange-400 text-white w-10 h-10 rounded-full font-black hover:bg-orange-500 shadow-lg text-xl">-</button>
+              <span class="font-black text-2xl w-10 text-center bg-yellow-50 border-4 border-orange-300 rounded-xl py-1">${item.quantity}</span>
+              <button onclick="updateCartQuantity(${index}, 1)" class="quantity-btn bg-orange-400 text-white w-10 h-10 rounded-full font-black hover:bg-orange-500 shadow-lg text-xl">+</button>
+              <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 font-black text-3xl ml-3 bg-red-100 w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-200 transition-all">🗑️</button>
+            </div>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      cartItems.innerHTML = html;
+      cartTotal.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+    }
 
-        async function onConfigChange(config) {
-            const backgroundColor = config.background_color || defaultConfig.background_color;
-            const surfaceColor = config.surface_color || defaultConfig.surface_color;
-            const textColor = config.text_color || defaultConfig.text_color;
-            const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
-            const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
-            const fontFamily = config.font_family || defaultConfig.font_family;
-            const fontSize = config.font_size || defaultConfig.font_size;
+    function updateCartQuantity(index, change) {
+      cart[index].quantity = Math.max(1, cart[index].quantity + change);
+      updateCartDisplay();
+    }
 
-            // Apply colors
-            document.body.style.backgroundColor = backgroundColor;
-            document.getElementById('navbar').style.backgroundColor = surfaceColor;
-            document.getElementById('hero-section').style.backgroundColor = backgroundColor;
-            document.getElementById('menu-section').style.backgroundColor = surfaceColor;
-            document.getElementById('cta-section').style.backgroundColor = backgroundColor;
-            document.getElementById('footer').style.backgroundColor = surfaceColor;
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+    }
 
-            // Apply text colors
-            document.getElementById('nav-title').style.color = textColor;
-            document.getElementById('hero-title').style.color = textColor;
-            document.getElementById('hero-description').style.color = textColor;
-            document.getElementById('menu-title').style.color = textColor;
-            document.getElementById('burger-category').style.color = textColor;
-            document.getElementById('kebab-category').style.color = textColor;
-            document.getElementById('cta-title').style.color = textColor;
-            document.getElementById('cta-description').style.color = textColor;
-            document.getElementById('footer-text').style.color = textColor;
+    function openCart() {
+      document.getElementById('cart-modal').classList.remove('hidden');
+      document.getElementById('cart-modal').classList.add('flex');
+    }
 
-            // Menu cards
-            const menuCards = document.querySelectorAll('.menu-card');
-            menuCards.forEach(card => {
-                card.style.backgroundColor = backgroundColor;
-                const cardTitle = card.querySelector('h5');
-                const cardDesc = card.querySelector('p');
-                const cardPrice = card.querySelectorAll('p')[1];
-                if (cardTitle) cardTitle.style.color = textColor;
-                if (cardDesc) cardDesc.style.color = textColor;
-                if (cardPrice) cardPrice.style.color = primaryActionColor;
-            });
+    function closeCart() {
+      document.getElementById('cart-modal').classList.add('hidden');
+      document.getElementById('cart-modal').classList.remove('flex');
+    }
 
-            // CTA Section
-            const ctaSection = document.querySelector('#cta-section > div');
-            ctaSection.style.backgroundColor = secondaryActionColor;
+    function showOrderForm() {
+      if (cart.length === 0) return;
+      
+      closeCart();
+      
+      let summaryHtml = '<div class="space-y-2">';
+      let total = 0;
+      
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        summaryHtml += `
+          <div class="flex justify-between text-sm">
+            <span>${item.name} x${item.quantity}</span>
+            <span class="font-semibold">Rp ${itemTotal.toLocaleString('id-ID')}</span>
+          </div>
+        `;
+      });
+      
+      summaryHtml += '</div>';
+      
+      document.getElementById('order-summary').innerHTML = summaryHtml;
+      document.getElementById('order-total').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+      
+      document.getElementById('order-modal').classList.remove('hidden');
+      document.getElementById('order-modal').classList.add('flex');
+    }
 
-            // Apply button colors
-            document.getElementById('nav-cta').style.backgroundColor = primaryActionColor;
-            document.getElementById('nav-cta').style.color = textColor;
-            document.getElementById('cart-btn').style.backgroundColor = primaryActionColor;
-            document.getElementById('cart-btn').style.color = textColor;
-            document.getElementById('hero-cta').style.backgroundColor = primaryActionColor;
-            document.getElementById('hero-cta').style.color = textColor;
-            document.getElementById('cta-order-button').style.backgroundColor = surfaceColor;
-            document.getElementById('cta-order-button').style.color = textColor;
-            document.getElementById('checkout-btn').style.backgroundColor = primaryActionColor;
-            document.getElementById('checkout-btn').style.color = textColor;
-            
-            // Cart modal styling
-            document.getElementById('cart-modal-content').style.backgroundColor = surfaceColor;
-            document.getElementById('cart-modal-content').style.color = textColor;
-            
-            // Order form modal styling
-            document.getElementById('order-form-content').style.backgroundColor = surfaceColor;
-            document.getElementById('order-form-content').style.color = textColor;
-            
-            // Add to cart buttons
-            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-            addToCartButtons.forEach(btn => {
-                btn.style.backgroundColor = primaryActionColor;
-                btn.style.color = textColor;
-            });
-            
-            // Quantity buttons
-            const qtyButtons = document.querySelectorAll('.qty-btn');
-            qtyButtons.forEach(btn => {
-                btn.style.backgroundColor = secondaryActionColor;
-                btn.style.color = textColor;
-            });
+    function closeOrderForm() {
+      document.getElementById('order-modal').classList.add('hidden');
+      document.getElementById('order-modal').classList.remove('flex');
+    }
 
-            // Apply fonts
-            const fontStack = `${fontFamily}, system-ui, -apple-system, sans-serif`;
-            document.body.style.fontFamily = fontStack;
+    function closeSuccessModal() {
+      document.getElementById('success-modal').classList.add('hidden');
+      document.getElementById('success-modal').classList.remove('flex');
+      cart = [];
+      updateCartDisplay();
+    }
 
-            // Apply font sizes
-            document.getElementById('nav-title').style.fontSize = `${fontSize * 1.5}px`;
-            document.getElementById('nav-cta').style.fontSize = `${fontSize * 0.875}px`;
-            document.getElementById('hero-title').style.fontSize = `${fontSize * 3.125}px`;
-            document.getElementById('hero-description').style.fontSize = `${fontSize * 1.25}px`;
-            document.getElementById('hero-cta').style.fontSize = `${fontSize * 1.125}px`;
-            document.getElementById('menu-title').style.fontSize = `${fontSize * 2.5}px`;
-            document.getElementById('burger-category').style.fontSize = `${fontSize * 1.5}px`;
-            document.getElementById('kebab-category').style.fontSize = `${fontSize * 1.5}px`;
-            
-            menuCards.forEach(card => {
-                const cardTitle = card.querySelector('h5');
-                const cardDesc = card.querySelector('p');
-                const cardPrice = card.querySelectorAll('p')[1];
-                if (cardTitle) cardTitle.style.fontSize = `${fontSize * 1.25}px`;
-                if (cardDesc) cardDesc.style.fontSize = `${fontSize * 0.875}px`;
-                if (cardPrice) cardPrice.style.fontSize = `${fontSize * 1.5}px`;
-            });
+    document.getElementById('cart-btn').addEventListener('click', openCart);
 
-            document.getElementById('cta-title').style.fontSize = `${fontSize * 1.875}px`;
-            document.getElementById('cta-description').style.fontSize = `${fontSize * 1.125}px`;
-            document.getElementById('cta-order-button').style.fontSize = `${fontSize * 1.25}px`;
-            document.getElementById('footer-text').style.fontSize = `${fontSize * 1.125}px`;
+    document.getElementById('order-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('customer-name').value;
+      const phone = document.getElementById('customer-phone').value;
+      const address = document.getElementById('customer-address').value;
+      const notes = document.getElementById('customer-notes').value;
+      
+      // Format pesanan untuk WhatsApp
+      let message = `*PESANAN BARU* 🍔🌯\n\n`;
+      message += `*Nama:* ${name}\n`;
+      message += `*No. HP:* ${phone}\n`;
+      message += `*Alamat:* ${address}\n\n`;
+      message += `*DETAIL PESANAN:*\n`;
+      message += `━━━━━━━━━━━━━━━━\n`;
+      
+      let total = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        message += `• ${item.name}\n`;
+        message += `  ${item.quantity} x Rp ${item.price.toLocaleString('id-ID')} = Rp ${itemTotal.toLocaleString('id-ID')}\n\n`;
+      });
+      
+      message += `━━━━━━━━━━━━━━━━\n`;
+      message += `*TOTAL BAYAR: Rp ${total.toLocaleString('id-ID')}*\n\n`;
+      
+      if (notes) {
+        message += `*Catatan:*\n${notes}\n\n`;
+      }
+      
+      message += `Terima kasih! 🙏`;
+      
+      // Encode message untuk URL
+      const encodedMessage = encodeURIComponent(message);
+      const waNumber = '6285656884416';
+      const waURL = `https://wa.me/${waNumber}?text=${encodedMessage}`;
+      
+      // Buka WhatsApp di tab baru
+      window.open(waURL, '_blank', 'noopener,noreferrer');
+      
+      closeOrderForm();
+      
+      document.getElementById('success-modal').classList.remove('hidden');
+      document.getElementById('success-modal').classList.add('flex');
+      
+      document.getElementById('order-form').reset();
+    });
 
-            // Apply text content
-            document.getElementById('nav-title').textContent = config.business_name || defaultConfig.business_name;
-            document.getElementById('nav-cta').textContent = config.tagline || defaultConfig.tagline;
-            document.getElementById('hero-title').textContent = config.hero_title || defaultConfig.hero_title;
-            document.getElementById('hero-description').textContent = config.hero_description || defaultConfig.hero_description;
-            document.getElementById('hero-cta').textContent = config.cta_button || defaultConfig.cta_button;
-            document.getElementById('menu-title').textContent = config.menu_title || defaultConfig.menu_title;
-            document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+    async function onConfigChange(config) {
+      const baseFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'system-ui, -apple-system, sans-serif';
+      const customFont = `${baseFont}, ${baseFontStack}`;
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      document.body.style.fontFamily = customFont;
+      
+      document.getElementById('brand-name').textContent = config.brand_name || defaultConfig.brand_name;
+      document.getElementById('brand-name').style.fontSize = `${baseSize * 1.875}px`;
+      
+      document.getElementById('hero-title').textContent = config.hero_title || defaultConfig.hero_title;
+      document.getElementById('hero-title').style.fontSize = `${baseSize * 3.75}px`;
+      
+      document.getElementById('hero-subtitle').textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      document.getElementById('hero-subtitle').style.fontSize = `${baseSize * 1.5}px`;
+      
+      document.getElementById('menu-title').textContent = config.menu_title || defaultConfig.menu_title;
+      document.getElementById('menu-title').style.fontSize = `${baseSize * 2.5}px`;
+      
+      document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+      document.getElementById('footer-text').style.fontSize = `${baseSize * 1.125}px`;
+
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+
+      const gradientElements = document.querySelectorAll('.gradient-bg');
+      gradientElements.forEach(el => {
+        el.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${primaryActionColor} 100%)`;
+      });
+
+      const menuCards = document.querySelectorAll('.menu-card');
+      menuCards.forEach(card => {
+        card.style.backgroundColor = surfaceColor;
+        card.style.borderColor = primaryActionColor;
+      });
+
+      const cardBgs = document.querySelectorAll('.menu-card > div:first-child');
+      cardBgs.forEach(bg => {
+        bg.style.backgroundColor = primaryActionColor;
+      });
+
+      const titles = document.querySelectorAll('h5, h4');
+      titles.forEach(title => {
+        title.style.color = textColor;
+      });
+
+      const prices = document.querySelectorAll('.menu-card p');
+      prices.forEach(price => {
+        if (price.textContent.includes('Rp')) {
+          price.style.color = primaryActionColor;
         }
+      });
 
-        function mapToCapabilities(config) {
-            return {
-                recolorables: [
-                    {
-                        get: () => config.background_color || defaultConfig.background_color,
-                        set: (value) => {
-                            config.background_color = value;
-                            window.elementSdk.setConfig({ background_color: value });
-                        }
-                    },
-                    {
-                        get: () => config.surface_color || defaultConfig.surface_color,
-                        set: (value) => {
-                            config.surface_color = value;
-                            window.elementSdk.setConfig({ surface_color: value });
-                        }
-                    },
-                    {
-                        get: () => config.text_color || defaultConfig.text_color,
-                        set: (value) => {
-                            config.text_color = value;
-                            window.elementSdk.setConfig({ text_color: value });
-                        }
-                    },
-                    {
-                        get: () => config.primary_action_color || defaultConfig.primary_action_color,
-                        set: (value) => {
-                            config.primary_action_color = value;
-                            window.elementSdk.setConfig({ primary_action_color: value });
-                        }
-                    },
-                    {
-                        get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
-                        set: (value) => {
-                            config.secondary_action_color = value;
-                            window.elementSdk.setConfig({ secondary_action_color: value });
-                        }
-                    }
-                ],
-                borderables: [],
-                fontEditable: {
-                    get: () => config.font_family || defaultConfig.font_family,
-                    set: (value) => {
-                        config.font_family = value;
-                        window.elementSdk.setConfig({ font_family: value });
-                    }
-                },
-                fontSizeable: {
-                    get: () => config.font_size || defaultConfig.font_size,
-                    set: (value) => {
-                        config.font_size = value;
-                        window.elementSdk.setConfig({ font_size: value });
-                    }
-                }
-            };
-        }
+      const orderButtons = document.querySelectorAll('.btn-order');
+      orderButtons.forEach(btn => {
+        btn.style.backgroundColor = primaryActionColor;
+      });
 
-        function mapToEditPanelValues(config) {
-            return new Map([
-                ["business_name", config.business_name || defaultConfig.business_name],
-                ["tagline", config.tagline || defaultConfig.tagline],
-                ["hero_title", config.hero_title || defaultConfig.hero_title],
-                ["hero_description", config.hero_description || defaultConfig.hero_description],
-                ["cta_button", config.cta_button || defaultConfig.cta_button],
-                ["menu_title", config.menu_title || defaultConfig.menu_title],
-                ["footer_text", config.footer_text || defaultConfig.footer_text]
-            ]);
-        }
+      const quantityInputs = document.querySelectorAll('.quantity-input');
+      quantityInputs.forEach(input => {
+        input.style.borderColor = primaryActionColor;
+      });
+    }
 
-        // Cart functions
-        function updateCartCount() {
-            const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
-            const cartCountEl = document.getElementById('cart-count');
-            cartCountEl.textContent = totalItems;
-            cartCountEl.style.backgroundColor = totalItems > 0 ? '#ff0000' : '#999999';
-        }
-
-        function updateQuantityDisplay(itemName, qty) {
-            const displays = document.querySelectorAll(`.qty-display[data-item="${itemName}"]`);
-            displays.forEach(display => {
-                display.textContent = qty;
-            });
-        }
-
-        function formatRupiah(amount) {
-            return 'Rp ' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
-
-        function renderCart() {
-            const cartItemsEl = document.getElementById('cart-items');
-            const cartTotalEl = document.getElementById('cart-total');
-            
-            if (Object.keys(cart).length === 0) {
-                cartItemsEl.innerHTML = '<p class="text-center text-lg py-8">Keranjang Anda masih kosong</p>';
-                cartTotalEl.textContent = 'Rp 0';
-                return;
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                window.elementSdk.config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                window.elementSdk.config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                window.elementSdk.config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                window.elementSdk.config.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
             }
-            
-            let total = 0;
-            let html = '<div class="space-y-4">';
-            
-            for (const [itemName, qty] of Object.entries(cart)) {
-                if (qty > 0) {
-                    const pricePerItem = parseInt(document.querySelector(`[data-item="${itemName}"]`).dataset.price);
-                    const subtotal = pricePerItem * qty;
-                    total += subtotal;
-                    
-                    html += `
-                        <div class="flex justify-between items-center p-4 rounded-xl" style="background-color: #FFF9E6;">
-                            <div class="flex-1">
-                                <h4 class="font-bold text-lg">${itemName}</h4>
-                                <p class="text-sm">${formatRupiah(pricePerItem)} x ${qty}</p>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <span class="font-bold text-xl">${formatRupiah(subtotal)}</span>
-                                <button class="remove-item-btn w-8 h-8 rounded-full bg-red-500 text-white font-bold hover:bg-red-600" data-item="${itemName}">×</button>
-                            </div>
-                        </div>
-                    `;
-                }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              window.elementSdk.config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
             }
-            
-            html += '</div>';
-            cartItemsEl.innerHTML = html;
-            cartTotalEl.textContent = formatRupiah(total);
-            
-            // Add remove button listeners
-            document.querySelectorAll('.remove-item-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const itemName = this.dataset.item;
-                    delete cart[itemName];
-                    updateQuantityDisplay(itemName, 0);
-                    updateCartCount();
-                    renderCart();
-                });
-            });
-        }
-
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Plus button
-            document.querySelectorAll('.plus-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const itemName = this.dataset.item;
-                    cart[itemName] = (cart[itemName] || 0) + 1;
-                    updateQuantityDisplay(itemName, cart[itemName]);
-                    updateCartCount();
-                });
-            });
-
-            // Minus button
-            document.querySelectorAll('.minus-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const itemName = this.dataset.item;
-                    if (cart[itemName] && cart[itemName] > 0) {
-                        cart[itemName]--;
-                        if (cart[itemName] === 0) {
-                            delete cart[itemName];
-                        }
-                        updateQuantityDisplay(itemName, cart[itemName] || 0);
-                        updateCartCount();
-                    }
-                });
-            });
-
-            // Add to cart button
-            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const itemName = this.dataset.item;
-                    const currentQty = cart[itemName] || 0;
-                    
-                    if (currentQty === 0) {
-                        cart[itemName] = 1;
-                        updateQuantityDisplay(itemName, 1);
-                        updateCartCount();
-                    }
-                    
-                    // Show cart modal
-                    renderCart();
-                    document.getElementById('cart-modal').classList.remove('hidden');
-                    document.getElementById('cart-modal').classList.add('flex');
-                });
-            });
-
-            // Cart button
-            document.getElementById('cart-btn').addEventListener('click', function() {
-                renderCart();
-                document.getElementById('cart-modal').classList.remove('hidden');
-                document.getElementById('cart-modal').classList.add('flex');
-            });
-
-            // Close cart
-            document.getElementById('close-cart').addEventListener('click', function() {
-                document.getElementById('cart-modal').classList.add('hidden');
-                document.getElementById('cart-modal').classList.remove('flex');
-            });
-
-            // Close on backdrop click
-            document.getElementById('cart-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.add('hidden');
-                    this.classList.remove('flex');
-                }
-            });
-
-            // Checkout button - Open Order Form
-            document.getElementById('checkout-btn').addEventListener('click', function() {
-                if (Object.keys(cart).length === 0) {
-                    return;
-                }
-                
-                // Close cart modal
-                document.getElementById('cart-modal').classList.add('hidden');
-                document.getElementById('cart-modal').classList.remove('flex');
-                
-                // Populate order summary
-                const orderSummary = document.getElementById('order-summary');
-                let total = 0;
-                let summaryHTML = '';
-                
-                for (const [itemName, qty] of Object.entries(cart)) {
-                    const pricePerItem = parseInt(document.querySelector(`[data-item="${itemName}"]`).dataset.price);
-                    const subtotal = pricePerItem * qty;
-                    total += subtotal;
-                    summaryHTML += `
-                        <div class="flex justify-between text-base">
-                            <span>${itemName} x${qty}</span>
-                            <span class="font-semibold">${formatRupiah(subtotal)}</span>
-                        </div>
-                    `;
-                }
-                
-                orderSummary.innerHTML = summaryHTML;
-                document.getElementById('order-form-total').textContent = formatRupiah(total);
-                
-                // Open order form modal
-                document.getElementById('order-form-modal').classList.remove('hidden');
-                document.getElementById('order-form-modal').classList.add('flex');
-            });
-            
-            // Nav CTA button - WhatsApp
-            document.getElementById('nav-cta').addEventListener('click', function() {
-                const message = 'Halo, saya ingin memesan dari GULAVA';
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/6285656884416?text=${encodedMessage}`;
-                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-            });
-            
-            // Hero CTA button - WhatsApp
-            document.getElementById('hero-cta').addEventListener('click', function() {
-                const message = 'Halo, saya ingin melihat menu lengkap dari GULAVA';
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/6285656884416?text=${encodedMessage}`;
-                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-            });
-            
-            // CTA Order button - WhatsApp
-            document.getElementById('cta-order-button').addEventListener('click', function() {
-                const message = 'Halo, saya ingin memesan dari GULAVA';
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/6285656884416?text=${encodedMessage}`;
-                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-            });
-            
-            // Close order form
-            document.getElementById('close-order-form').addEventListener('click', function() {
-                document.getElementById('order-form-modal').classList.add('hidden');
-                document.getElementById('order-form-modal').classList.remove('flex');
-            });
-            
-            // Close order form on backdrop click
-            document.getElementById('order-form-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.add('hidden');
-                    this.classList.remove('flex');
-                }
-            });
-            
-            // Submit order form
-            document.getElementById('order-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form values
-                const customerName = document.getElementById('customer-name').value;
-                const customerPhone = document.getElementById('customer-phone').value;
-                const customerAddress = document.getElementById('customer-address').value;
-                const paymentMethod = document.getElementById('payment-method').value;
-                const orderNotes = document.getElementById('order-notes').value;
-                
-                // Build WhatsApp message
-                let message = `*PESANAN BARU - GULAVA*\n\n`;
-                message += `*Informasi Pelanggan:*\n`;
-                message += `Nama: ${customerName}\n`;
-                message += `No. HP: ${customerPhone}\n`;
-                message += `Alamat: ${customerAddress}\n\n`;
-                
-                message += `*Detail Pesanan:*\n`;
-                let total = 0;
-                
-                for (const [itemName, qty] of Object.entries(cart)) {
-                    const pricePerItem = parseInt(document.querySelector(`[data-item="${itemName}"]`).dataset.price);
-                    const subtotal = pricePerItem * qty;
-                    total += subtotal;
-                    message += `• ${itemName} x${qty} = ${formatRupiah(subtotal)}\n`;
-                }
-                
-                message += `\n*Total: ${formatRupiah(total)}*\n\n`;
-                message += `*Metode Pembayaran:* ${paymentMethod}\n`;
-                
-                if (orderNotes) {
-                    message += `\n*Catatan:* ${orderNotes}`;
-                }
-                
-                // Encode and send to WhatsApp
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappUrl = `https://wa.me/6285656884416?text=${encodedMessage}`;
-                
-                // Open WhatsApp
-                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-                
-                // Clear cart and close modal
-                cart = {};
-                updateCartCount();
-                document.getElementById('order-form-modal').classList.add('hidden');
-                document.getElementById('order-form-modal').classList.remove('flex');
-                document.getElementById('order-form').reset();
-                
-                // Update all quantity displays to 0
-                document.querySelectorAll('.qty-display').forEach(display => {
-                    display.textContent = '0';
-                });
-            });
-        });
-
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig,
-                onConfigChange,
-                mapToCapabilities,
-                mapToEditPanelValues
-            });
-        }
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7772eb247bed99',t:'MTc2NDY0MzExNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              window.elementSdk.config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["brand_name", config.brand_name || defaultConfig.brand_name],
+          ["hero_title", config.hero_title || defaultConfig.hero_title],
+          ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+          ["menu_title", config.menu_title || defaultConfig.menu_title],
+          ["footer_text", config.footer_text || defaultConfig.footer_text]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a79f7d1b70d91a2',t:'MTc2NDY2OTUzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
